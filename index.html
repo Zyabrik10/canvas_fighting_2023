@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Fighting Game 2023</title>
+    <!-- normolize styles -->
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.min.css"
+    >
+
+    <!-- own styles -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="health-timer-box hidden">
+        <div id="player-health-box" class="health-box">
+            <div class="player-preview"></div>
+            <div class="health-bar">
+                <div class="player-health-line health-line"></div>
+            </div>
+        </div>
+        <div id="timer">
+            <span class="timer-value"></span>
+        </div>
+        <div id="enemy-health-box" class="health-box">
+            <div class="player-preview"></div>
+            <div class="health-bar">
+                <div class="enemy-health-line health-line"></div>
+            </div>
+        </div>
+    </div>
+    <canvas></canvas>
+
+    <div class="user-ui">
+        <h1 class="user-ui-title">The JavaScript Fighting Game 2023</h1>
+        <ul class="user-ui-buttons">
+            <li>
+                <button class="user-ui-button start-game-button" type="button">Play</button>
+            </li>
+            <li>
+                <button class="user-ui-button" type="button">Options</button>
+            </li>
+            <li>
+                <button class="user-ui-button" type="button">Credit</button>
+            </li>
+        </ul>
+    </div>
+    <script src="./js/initCanvas.js"></script>
+    <script src="./index.js" type="module"></script>
+</body>
+</html>
