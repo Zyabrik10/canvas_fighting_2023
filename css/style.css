@@ -81,7 +81,7 @@
     left: 0;
     top: 0;
 
-    background: url('../assets/sprites/bulkhead-walls-files/bulkhead-wallsx3.png');
+    /* background: url('../assets/sprites/bulkhead-walls-files/bulkhead-wallsx3.png'); */
 
     background-size: contain;
 
