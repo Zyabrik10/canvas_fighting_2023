@@ -194,7 +194,7 @@ const player = new Player({
       upf: 4
     },
     hit:{
-      imageSrc: "./assets/sprites/players/samuraiMack/Take Hit.png",
+      imageSrc: "./assets/sprites/players/samuraiMack/Take_Hit.png",
       framesAmount: 4,
       upf: 4
     },
@@ -310,7 +310,7 @@ const enemy = new Player({
       upf: 8
     },
     hit:{
-      imageSrc: "./assets/sprites/players/kenji/Take Hit.png",
+      imageSrc: "./assets/sprites/players/kenji/Take_Hit.png",
       framesAmount: 4,
       upf: 4
     },
