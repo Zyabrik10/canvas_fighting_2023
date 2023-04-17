@@ -295,7 +295,7 @@ const enemy = new Player({
       upf: 8
     },
     fall:{
-      imageSrc: "./assets/sprites/players/kenji/fall.png",
+      imageSrc: "./assets/sprites/players/kenji/Fall.png",
       framesAmount: 2,
       upf: 8
     },
