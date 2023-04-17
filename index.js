@@ -4,11 +4,15 @@
 // 2) MAKE SHURICANS
 // 3) MAKE SOUNDS
 // 4) MAKE UI
-// 5) MAKE SPRITES AND ITS ANIMATIONS
-// 6) MAKE PARTICKLES ABOVE FEET
-// 7) MAKE MUSIC
-// 8) REFACTOR CODE AND MAKE IT MODULES
+// 5) MAKE PARTICKLES ABOVE FEET
+// 6) MAKE MUSIC
+// 7) REFACTOR CODE AND MAKE IT MODULES
+// 8) APPLY PIXELS FONT
+// 9) preload images
 // -----------
+
+// ISSUE
+// 1) When the last hit is in head, you die, but health bar doesn't change
 
 import { Player } from "./js/Player.js";
 import { keys } from "./js/keys.js";
@@ -28,8 +32,8 @@ const playerSpeed = 10;
 
 const playersUpf = 5;
  
-let gameLoop = false;
-// requestAnimationFrame(update);
+let gameLoop = true;
+requestAnimationFrame(update);
 
 document.querySelector(".start-game-button").addEventListener("click", function startGame(){
   gameLoop = true;
@@ -358,7 +362,7 @@ function update() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   //----------------------------------------------------------------
-  // UPDATE
+  // UPDATES
   //----------------------------------------------------------------
   player.update();
   enemy.update();
@@ -419,14 +423,6 @@ function update() {
     enemy.switchSprite("jump");
   }else if (enemy.vel.y > 0){
     enemy.switchSprite("fall");
-  }
-
-  if (player.isDead && player.currentFrame === player.sprites.death.framesAmount - 1){
-    player.frameCounter = 0;
-    gameOver();
-  }
-  if (enemy.isDead && enemy.currentFrame === enemy.sprites.death.framesAmount - 1){
-    gameOver();
   }
 
   //----------------------------------------------------------------
@@ -600,6 +596,14 @@ function update() {
   
   }
 
+  if (player.isDead && player.currentFrame === player.sprites.death.framesAmount - 1){
+    player.frameCounter = 0;
+    gameOver();
+  }
+  if (enemy.isDead && enemy.currentFrame === enemy.sprites.death.framesAmount - 1){
+    gameOver();
+  }
+
   //----------------------------------------------------------------
   // enemy stop attacking by achieving last frame os attacking sprite and increase attackCounter*
   //----------------------------------------------------------------
@@ -613,6 +617,36 @@ function update() {
   //----------------------------------------------------------------
   if (forStuffCounter % forStuffCountRemainder === 0 && Math.random() > .9 && timerCounter <= maxTimerCounter - 10){
     const size = 40;
+    const roles = [
+      {
+          name: "kit",
+          imageSrc: './assets/sprites/stuff/pickup/kit.png',
+          sizeCof: 2,
+          imageOffset: {
+            x: -11,
+            y: -11
+          }
+      },
+      {
+          name: "def",
+          imageSrc: './assets/sprites/stuff/pickup/def.png',
+          sizeCof: 2,
+          imageOffset: {
+            x: -11,
+            y: -11
+          }
+      },
+      {
+          name: "pow",
+          imageSrc: './assets/sprites/stuff/pickup/pow.png',
+          sizeCof: 2,
+          imageOffset: {
+            x: -11,
+            y: -11
+          }
+      },
+    ]
+
     stuff.push(new Stuff({
       pos:{
         x: randNum(size, canvas.width - size),
@@ -620,8 +654,8 @@ function update() {
       },
       width: size,
       height: size,
-      color: `pink`,
-      floor: canvas.height - 110
+      floor: canvas.height - 110,
+      role: roles[Math.floor(Math.random() * roles.length)]
     }));
   }
 
@@ -645,13 +679,13 @@ function update() {
       );
 
       if (playerPickedUpStuff){  
-        player.getBonus(stuff[i].role);
+        player.getBonus(stuff[i].role.name);
         stuff.splice(i, 1);
         continue;
       }
       
       if (enemyPickedUpStuff){
-        enemy.getBonus(stuff[i].role);
+        enemy.getBonus(stuff[i].role.name);
         stuff.splice(i, 1);
         continue;
       }

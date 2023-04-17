@@ -1,33 +1,40 @@
 import { randNum } from "./mathFunc.js";
+import { Sprite } from "./Sprite.js";
 
-export class Stuff{
-    #roles = ["kit", "def", "pow"];
-
+export class Stuff extends Sprite{
     constructor({
         pos,
         width,
         height,
-        floor = canvas.height
+        floor = canvas.height,
+        role
     }){
-        this.pos = pos;
+        
+        super({
+            pos,
+            width,
+            height,
+            sizeCof: role.sizeCof,
+            imageSrc: role.imageSrc,
+            imageOffset: role.imageOffset
+        });
 
-        this.width = width;
-        this.height = height;
+        this.role = role;
 
-        this.role = this.#roles[Math.floor(Math.random() * this.#roles.length)];
+        this.color = `hsl(${randNum(0, 360)}, 80%, 50%)`;
 
-        switch(this.role){
+        switch(this.role.name){
             case "kit":
-                this.color = "pink";
+                this.color = `red`;
                 break;
             case "def":
-                this.color = "blue";
+                this.color = `blue`;
                 break;
             case "pow":
-                this.color = "gold";
+                this.color = `gold`;
                 break;
         }
-        
+
         this.vel = {
             x: randNum(-10, 10),
             y: 0
@@ -38,7 +45,7 @@ export class Stuff{
         this.end;
     }
 
-    fall(timerCounter){
+    fall(){
         this.pos.y += this.vel.y;
         this.vel.y += 0.8;
 
@@ -46,8 +53,6 @@ export class Stuff{
             this.vel.y = 0;
             this.vel.x = 0;
             this.pos.y = this.floor - this.height;
-            this.end = timerCounter - 10;
-            this.isOnTHeFloor = true;
         }
     }
 
@@ -63,16 +68,18 @@ export class Stuff{
         }
     }
 
-    draw(){
+    drawCollision(){
         ctx.beginPath();
         ctx.strokeStyle = this.color;
         ctx.rect(this.pos.x, this.pos.y, this.width, this.height);
         ctx.stroke();
     }
 
-    update(timerCounter){
-        this.fall(timerCounter);
+    update(){
+        this.fall();
         this.move();
+        this.drawCollision();
         this.draw();
+
     }
 }

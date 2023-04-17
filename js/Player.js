@@ -1,7 +1,8 @@
 import { Sprite } from "./Sprite.js";
+import { Sound } from "./Sound.js";
 
 export class Player extends Sprite {
-  constructor({ pos, color, width, height, attackBox, hitBoxes, healthLine, imageSrc, sizeCof, floor = canvas.height, imageOffset, framesAmount = 1, upf = 2, sprites}) {
+  constructor({ pos, color, width, height, attackBox, hitBoxes, healthLine, imageSrc, sizeCof, floor = canvas.height, imageOffset, framesAmount = 1, upf = 2, sprites, soundSrc = ''}) {
     super({
       color,
       pos,
@@ -11,8 +12,10 @@ export class Player extends Sprite {
       sizeCof,
       imageOffset,
       framesAmount,
-      upf
+      upf,
     });
+
+    this.sound = new Sound(soundSrc);
 
     this.vel = {
       x: 0,
