@@ -1,8 +1,23 @@
 import { Sprite } from "./Sprite.js";
-import { Sound } from "./Sound.js";
 
 export class Player extends Sprite {
-  constructor({ pos, color, width, height, attackBox, hitBoxes, healthLine, imageSrc, sizeCof, floor = canvas.height, imageOffset, framesAmount = 1, upf = 2, sprites, soundSrc = ''}) {
+  constructor({
+    pos,
+    color,
+    width,
+    height,
+    attackBox,
+    hitBoxes,
+    healthLine,
+    imageSrc,
+    sizeCof,
+    floor = canvas.height,
+    imageOffset,
+    framesAmount = 1,
+    upf = 2,
+    sprites,
+    sounds,
+  }) {
     super({
       color,
       pos,
@@ -14,8 +29,6 @@ export class Player extends Sprite {
       framesAmount,
       upf,
     });
-
-    this.sounds = new Sound(soundSrc);
 
     this.vel = {
       x: 0,
@@ -46,10 +59,28 @@ export class Player extends Sprite {
 
     this.sprites = sprites;
 
-    for (const sprite in sprites){
+    for (const sprite in sprites) {
       sprites[sprite].image = new Image();
       sprites[sprite].image.src = sprites[sprite].imageSrc;
     }
+
+    this.sound;
+
+    this.sounds = sounds;
+
+    for (const sound in sounds) {
+      sounds[sound].audio = new Audio(sounds[sound].audioSrc);
+
+      if (sounds[sound].audiosSrc) {
+        sounds[sound].audios = [];
+
+        sounds[sound].audiosSrc.forEach((audioSrc) => {
+          sounds[sound].audios.push(new Audio(audioSrc));
+        });
+      }
+    }
+
+    this.sounds.run.ableToPlay = true;
 
     this.attackCounter = 0;
 
@@ -104,12 +135,12 @@ export class Player extends Sprite {
       this.attackBox.pos.y,
       this.attackBox.width,
       this.attackBox.height
-      );
-      ctx.stroke();
-      if (this.isAttacking) {
-        ctx.fill();
+    );
+    ctx.stroke();
+    if (this.isAttacking) {
+      ctx.fill();
     }
-    
+
     this.particles.forEach((particle) => {
       particle.update();
     });
@@ -139,10 +170,10 @@ export class Player extends Sprite {
 
   attack() {
     this.isAttacking = true;
-    
+
     if (this.attackCounter % 2 === 0) {
       this.switchSprite("attack1");
-    } else{
+    } else {
       this.switchSprite("attack2");
     }
   }
@@ -218,26 +249,35 @@ export class Player extends Sprite {
     }
   }
 
-  switchSprite(sprite){
+  switchSprite(sprite) {
     if (this.isDead) {
-      return
+      return;
     }
 
-    if (this.image === this.sprites.hit.image && this.currentFrame !== this.sprites.hit.framesAmount - 1) {
-      return
+    if (
+      this.image === this.sprites.hit.image &&
+      this.currentFrame !== this.sprites.hit.framesAmount - 1
+    ) {
+      return;
     }
 
-    if (this.image === this.sprites.attack1.image && this.currentFrame !== this.sprites.attack1.framesAmount - 1) {
-      return
+    if (
+      this.image === this.sprites.attack1.image &&
+      this.currentFrame !== this.sprites.attack1.framesAmount - 1
+    ) {
+      return;
     }
 
-    if (this.image === this.sprites.attack2.image && this.currentFrame !== this.sprites.attack2.framesAmount - 1) {
-      return
+    if (
+      this.image === this.sprites.attack2.image &&
+      this.currentFrame !== this.sprites.attack2.framesAmount - 1
+    ) {
+      return;
     }
 
-    switch(sprite){
+    switch (sprite) {
       case "idle":
-        if (this.image !== this.sprites.idle.image){
+        if (this.image !== this.sprites.idle.image) {
           this.image = this.sprites.idle.image;
           this.framesAmount = this.sprites.idle.framesAmount;
           this.currentFrame = 0;
@@ -245,7 +285,7 @@ export class Player extends Sprite {
         }
         break;
       case "run":
-        if (this.image !== this.sprites.run.image){
+        if (this.image !== this.sprites.run.image) {
           this.image = this.sprites.run.image;
           this.framesAmount = this.sprites.run.framesAmount;
           this.currentFrame = 0;
@@ -253,7 +293,7 @@ export class Player extends Sprite {
         }
         break;
       case "jump":
-        if (this.image !== this.sprites.jump.image){
+        if (this.image !== this.sprites.jump.image) {
           this.image = this.sprites.jump.image;
           this.framesAmount = this.sprites.jump.framesAmount;
           this.currentFrame = 0;
@@ -261,7 +301,7 @@ export class Player extends Sprite {
         }
         break;
       case "fall":
-        if (this.image !== this.sprites.fall.image){
+        if (this.image !== this.sprites.fall.image) {
           this.image = this.sprites.fall.image;
           this.framesAmount = this.sprites.fall.framesAmount;
           this.currentFrame = 0;
@@ -269,7 +309,7 @@ export class Player extends Sprite {
         }
         break;
       case "attack1":
-        if (this.image !== this.sprites.attack1.image){
+        if (this.image !== this.sprites.attack1.image) {
           this.image = this.sprites.attack1.image;
           this.framesAmount = this.sprites.attack1.framesAmount;
           this.currentFrame = 0;
@@ -278,7 +318,7 @@ export class Player extends Sprite {
         }
         break;
       case "attack2":
-        if (this.image !== this.sprites.attack2.image){
+        if (this.image !== this.sprites.attack2.image) {
           this.image = this.sprites.attack2.image;
           this.framesAmount = this.sprites.attack2.framesAmount;
           this.currentFrame = 0;
@@ -287,7 +327,7 @@ export class Player extends Sprite {
         }
         break;
       case "hit":
-        if (this.image !== this.sprites.hit.image){
+        if (this.image !== this.sprites.hit.image) {
           this.image = this.sprites.hit.image;
           this.framesAmount = this.sprites.hit.framesAmount;
           this.currentFrame = 0;
@@ -295,14 +335,57 @@ export class Player extends Sprite {
         }
         break;
       case "death":
-        if (this.image !== this.sprites.death.image){
+        if (this.image !== this.sprites.death.image) {
           this.image = this.sprites.death.image;
           this.framesAmount = this.sprites.death.framesAmount;
           this.currentFrame = 0;
           this.upf = this.sprites.death.upf;
           this.isDead = true;
-      console.log("enemy is dead");
+          console.log("enemy is dead");
         }
+        break;
+    }
+  }
+
+  playSound(sound) {
+    switch (sound) {
+      case "run":
+        if (
+          this.sounds.run.ableToPlay &&
+          this.sounds.run.audio !== this.sound
+        ) {
+          this.sound =
+            this.sounds.run.audios[
+              Math.floor(Math.random() * this.sounds.run.audios.length)
+            ];
+          this.sound.play();
+          this.sounds.run.ableToPlay = false;
+
+          setTimeout(() => {
+            this.sounds.run.ableToPlay = true;
+          }, 20);
+        }
+        break;
+      case "jump":
+        break;
+      case "fall":
+        break;
+      case "attack1":
+        break;
+      case "attack2":
+        break;
+      case "hit":
+        if (this.sound !== this.sounds.hit.audio) {
+          this.sound =
+            this.sounds.hit.audios[
+              Math.floor(Math.random() * this.sounds.hit.audios.length)
+            ];
+        }
+
+        this.sound.play();
+
+        break;
+      case "death":
         break;
     }
   }

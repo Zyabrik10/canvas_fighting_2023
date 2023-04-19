@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JS Fighting Game 2023</title>
     <!-- normolize styles -->
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.min.css"
-    >
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.min.css">
 
     <!-- FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,10 +18,11 @@
     <!-- own styles -->
     <link rel="stylesheet" href="./css/style.css">
 </head>
+
 <body>
     <div class="health-timer-box">
         <div id="player-health-box" class="health-box">
-            <div class="pl-pre player-preview"></div>
+            <!-- <div class="pl-pre player-preview"></div> -->
             <div class="health-bar">
                 <div class="player-health-line health-line"></div>
             </div>
@@ -31,7 +31,7 @@
             <span class="timer-value"></span>
         </div>
         <div id="enemy-health-box" class="health-box">
-            <div class="enm-pre player-preview"></div>
+            <!-- <div class="enm-pre player-preview"></div> -->
             <div class="health-bar">
                 <div class="enemy-health-line health-line"></div>
             </div>
@@ -40,7 +40,7 @@
 
     <canvas></canvas>
 
-    <div class="user-ui">
+    <div class="user-ui hidden">
         <h1 class="user-ui-title">The JavaScript Fighting Game 2023</h1>
         <ul class="user-ui-buttons">
             <li>
@@ -57,4 +57,5 @@
     <script src="./js/initCanvas.js"></script>
     <script src="./index.js" type="module"></script>
 </body>
+
 </html>

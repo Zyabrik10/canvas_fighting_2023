@@ -31,17 +31,21 @@ const playerJumpForce = 20;
 const playerSpeed = 10;
 
 const playersUpf = 5;
- 
-let gameLoop = false;
-// requestAnimationFrame(update);
 
-document.querySelector(".start-game-button").addEventListener("click", function startGame(){
-  gameLoop = true;
-  requestAnimationFrame(update);
-  document.querySelector(".start-game-button").removeEventListener("click", startGame);
-  document.querySelector(".user-ui").classList.add("hidden");
-  document.querySelector(".health-timer-box").classList.remove("hidden");
-});
+let gameLoop = true;
+requestAnimationFrame(update);
+
+document
+  .querySelector(".start-game-button")
+  .addEventListener("click", function startGame() {
+    gameLoop = true;
+    requestAnimationFrame(update);
+    document
+      .querySelector(".start-game-button")
+      .removeEventListener("click", startGame);
+    document.querySelector(".user-ui").classList.add("hidden");
+    document.querySelector(".health-timer-box").classList.remove("hidden");
+  });
 
 let timerCounter = 60;
 let maxTimerCounter = timerCounter;
@@ -59,13 +63,13 @@ let forStuffCountRemainder = 200;
 const stuff = [];
 
 const hitBoxes = {
-  player:{
+  player: {
     head: {
       size: 20,
-      offset:{
+      offset: {
         x: 28,
-        y: 20
-      }
+        y: 20,
+      },
     },
     body: {
       size: 40,
@@ -74,13 +78,13 @@ const hitBoxes = {
       size: 50,
     },
   },
-  enemy:{
+  enemy: {
     head: {
       size: 20,
-      offset:{
+      offset: {
         x: 20,
-        y: 15
-      }
+        y: 15,
+      },
     },
     body: {
       size: 40,
@@ -88,11 +92,11 @@ const hitBoxes = {
     legs: {
       size: 55,
     },
-  }
+  },
 };
 
 //----------------------------------------------------------------
-// INITIALIZE PLAYERS 
+// INITIALIZE PLAYERS
 //----------------------------------------------------------------
 const player = new Player({
   pos: {
@@ -136,7 +140,7 @@ const player = new Player({
       },
       color: "blue",
       offset: {
-        x: 0, 
+        x: 0,
         y: hitBoxes.player.head.size + hitBoxes.player.head.offset.y,
       },
       width: playerWidth,
@@ -150,7 +154,10 @@ const player = new Player({
       color: "green",
       offset: {
         x: 0,
-        y: hitBoxes.player.body.size + hitBoxes.player.head.size + hitBoxes.player.head.offset.y,
+        y:
+          hitBoxes.player.body.size +
+          hitBoxes.player.head.size +
+          hitBoxes.player.head.offset.y,
       },
       width: playerWidth,
       height: hitBoxes.player.legs.size,
@@ -162,52 +169,71 @@ const player = new Player({
   floor: canvas.height - 110,
   imageOffset: {
     x: -195,
-    y: -155 
+    y: -155,
   },
   framesAmount: 8,
   upf: playersUpf,
-  sprites:{
-    idle:{
+  sprites: {
+    idle: {
       imageSrc: "./assets/sprites/players/samuraiMack/Idle.png",
       framesAmount: 8,
-      upf: playersUpf
+      upf: playersUpf,
     },
-    run:{
+    run: {
       imageSrc: "./assets/sprites/players/samuraiMack/Run.png",
       framesAmount: 8,
-      upf: 2
+      upf: 2,
     },
-    jump:{
+    jump: {
       imageSrc: "./assets/sprites/players/samuraiMack/Jump.png",
       framesAmount: 2,
-      upf: 8
+      upf: 8,
     },
-    fall:{
+    fall: {
       imageSrc: "./assets/sprites/players/samuraiMack/Fall.png",
       framesAmount: 2,
-      upf: 8
+      upf: 8,
     },
-    attack1:{
+    attack1: {
       imageSrc: "./assets/sprites/players/samuraiMack/Attack1.png",
       framesAmount: 6,
-      upf: 5
+      upf: 5,
     },
-    attack2:{
+    attack2: {
       imageSrc: "./assets/sprites/players/samuraiMack/Attack2.png",
       framesAmount: 6,
-      upf: 5
+      upf: 5,
     },
-    hit:{
+    hit: {
       imageSrc: "./assets/sprites/players/samuraiMack/Take_Hit.png",
       framesAmount: 4,
-      upf: 4
+      upf: 4,
     },
-    death:{
+    death: {
       imageSrc: "./assets/sprites/players/samuraiMack/Death.png",
       framesAmount: 6,
-      upf: 5
+      upf: 5,
     },
-  }
+  },
+  sounds: {
+    run: {
+      audioSrc: "../assets/audio/run/run_1.mp3",
+      audiosSrc: ["../assets/audio/run/run_2.mp3"],
+    },
+    jump: {},
+    fall: {},
+    attack1: {},
+    attack2: {},
+    hit: {
+      audioSrc: "../assets/audio/get_hit/get_hit_1.mp3",
+      audiosSrc: [
+        "../assets/audio/get_hit/get_hit_1.mp3",
+        "../assets/audio/get_hit/get_hit_2.mp3",
+        "../assets/audio/get_hit/get_hit_3.mp3",
+      ],
+    },
+    death: {},
+  },
 });
 
 const enemy = new Player({
@@ -252,7 +278,7 @@ const enemy = new Player({
       },
       color: "blue",
       offset: {
-        x: 0, 
+        x: 0,
         y: hitBoxes.enemy.head.size + hitBoxes.enemy.head.offset.y,
       },
       width: playerWidth,
@@ -266,72 +292,92 @@ const enemy = new Player({
       color: "green",
       offset: {
         x: 0,
-        y: hitBoxes.enemy.body.size + hitBoxes.enemy.head.size + hitBoxes.enemy.head.offset.y,
+        y:
+          hitBoxes.enemy.body.size +
+          hitBoxes.enemy.head.size +
+          hitBoxes.enemy.head.offset.y,
       },
       width: playerWidth,
       height: hitBoxes.enemy.legs.size,
-    },  
+    },
   },
   healthLine: document.querySelector(".enemy-health-line"),
   imageSrc: "./assets/sprites/players/kenji/Idle.png",
   sizeCof: playerSizeCof,
   floor: canvas.height - 110,
-  imageOffset:{
+  imageOffset: {
     x: -190,
-    y: -167
+    y: -167,
   },
   framesAmount: 4,
   upf: playersUpf,
-  sprites:{
-    idle:{
+  sprites: {
+    idle: {
       imageSrc: "./assets/sprites/players/kenji/Idle.png",
       framesAmount: 4,
-      upf: 8
+      upf: 8,
     },
-    run:{
+    run: {
       imageSrc: "./assets/sprites/players/kenji/Run.png",
       framesAmount: 8,
-      upf: 2
+      upf: 2,
     },
-    jump:{
+    jump: {
       imageSrc: "./assets/sprites/players/kenji/Jump.png",
       framesAmount: 2,
-      upf: 8
+      upf: 8,
     },
-    fall:{
+    fall: {
       imageSrc: "./assets/sprites/players/kenji/Fall.png",
       framesAmount: 2,
-      upf: 8
+      upf: 8,
     },
-    attack1:{
+    attack1: {
       imageSrc: "./assets/sprites/players/kenji/Attack1.png",
       framesAmount: 4,
-      upf: 8
+      upf: 8,
       // 8
     },
-    attack2:{
+    attack2: {
       imageSrc: "./assets/sprites/players/kenji/Attack2.png",
       framesAmount: 4,
-      upf: 8
+      upf: 8,
     },
-    hit:{
+    hit: {
       imageSrc: "./assets/sprites/players/kenji/Take_Hit.png",
       framesAmount: 4,
-      upf: 4
+      upf: 4,
     },
-    death:{
+    death: {
       imageSrc: "./assets/sprites/players/kenji/Death.png",
       framesAmount: 8,
-      upf: 7
+      upf: 7,
     },
-  }
+  },
+  sounds: {
+    run: {
+      audioSrc: "../assets/audio/run/run_1.mp3",
+      audiosSrc: ["../assets/audio/run/run_2.mp3"],
+    },
+    jump: {},
+    fall: {},
+    attack1: {},
+    attack2: {},
+    hit: {
+      audioSrc: "../assets/audio/get_hit/get_hit_1.mp3",
+      audiosSrc: [
+        "../assets/audio/get_hit/get_hit_1.mp3",
+        "../assets/audio/get_hit/get_hit_2.mp3",
+        "../assets/audio/get_hit/get_hit_3.mp3",
+      ],
+    },
+    death: {},
+  },
 });
 
 //----------------------------------------------------------------
 // INITIALIZE SPRITES
 //----------------------------------------------------------------
-
-
 
 //----------------------------------------------------------------
 // INITIALIZE TIMER
@@ -339,11 +385,11 @@ const enemy = new Player({
 const gameTimer = setInterval(() => {
   if (!gameLoop) return;
   for (let i = stuff.length - 1; i >= 0; i--) {
-    if (stuff[i].end === timerCounter){
+    if (stuff[i].end === timerCounter) {
       stuff.splice(i, 1);
     }
   }
-  
+
   timerCounter--;
 
   document.querySelector(".timer-value").textContent = timerCounter;
@@ -367,7 +413,7 @@ function update() {
   //----------------------------------------------------------------
   player.update();
   enemy.update();
-  stuff.forEach(obj => obj.update());
+  stuff.forEach((obj) => obj.update());
 
   //----------------------------------------------------------------
   // RESET PLAYERS VELOCITY
@@ -383,11 +429,17 @@ function update() {
   //----------------------------------------------------------------
   if (keys.a.pressed && player.lastKey === "a") {
     player.vel.x = -playerSpeed;
-    if (player.vel.y === 0) player.switchSprite("run");
+    if (player.vel.y === 0) {
+      player.switchSprite("run");
+      player.playSound("run");
+    }
   } else if (keys.d.pressed && player.lastKey === "d") {
     player.vel.x = playerSpeed;
-    if (player.vel.y === 0) player.switchSprite("run");
-  }else if (player.vel.y === 0){
+    if (player.vel.y === 0) {
+      player.switchSprite("run");
+      player.playSound("run");
+    }
+  } else if (player.vel.y === 0) {
     player.switchSprite("idle");
   }
 
@@ -396,11 +448,17 @@ function update() {
   //----------------------------------------------------------------
   if (keys.arrowLeft.pressed && enemy.lastKey === "arrowLeft") {
     enemy.vel.x = -playerSpeed;
-    if (enemy.vel.y === 0) enemy.switchSprite("run");
+    if (enemy.vel.y === 0) {
+      enemy.switchSprite("run");
+      enemy.playSound("run");
+    }
   } else if (keys.arrowRight.pressed && enemy.lastKey === "arrowRight") {
     enemy.vel.x = playerSpeed;
-    if (enemy.vel.y === 0) enemy.switchSprite("run");
-  }else if (enemy.vel.y === 0){
+    if (enemy.vel.y === 0) {
+      enemy.switchSprite("run");
+      enemy.playSound("run");
+    }
+  } else if (enemy.vel.y === 0) {
     enemy.switchSprite("idle");
   }
 
@@ -410,9 +468,9 @@ function update() {
   //----------------------------------------------------------------
   // player jump
   //----------------------------------------------------------------
-  if (player.vel.y < 0){
+  if (player.vel.y < 0) {
     player.switchSprite("jump");
-  }else if (player.vel.y > 0){
+  } else if (player.vel.y > 0) {
     player.switchSprite("fall");
   }
 
@@ -420,9 +478,9 @@ function update() {
   // enemy jump
   //----------------------------------------------------------------
 
-  if (enemy.vel.y < 0){
+  if (enemy.vel.y < 0) {
     enemy.switchSprite("jump");
-  }else if (enemy.vel.y > 0){
+  } else if (enemy.vel.y > 0) {
     enemy.switchSprite("fall");
   }
 
@@ -440,7 +498,6 @@ function update() {
   //----------------------------------------------------------------
 
   if (player.isAttacking && player.currentFrame === 4) {
-
     const playerHit = {
       head:
         playerAB.pos.x + playerAB.width >= enemy.hitBoxes.head.pos.x &&
@@ -472,36 +529,39 @@ function update() {
       if (playerHit[hit] && hit === "head") {
         console.log("Enemy hited: ", hit);
         enemy.takeHit("head", player.power);
+        enemy.playSound("hit");
 
-        if (enemy.health > 0){
+        if (enemy.health > 0) {
           enemy.switchSprite("hit");
-        }else{
+        } else {
           enemy.switchSprite("death");
           enemy.isDead = true;
         }
 
         player.isAttacking = false;
         break;
-      }else if (playerHit[hit] && hit === "body") {
+      } else if (playerHit[hit] && hit === "body") {
         console.log("Enemy hited: ", hit);
         enemy.takeHit("body", player.power);
+        enemy.playSound("hit");
 
-        if (enemy.health > 0){
+        if (enemy.health > 0) {
           enemy.switchSprite("hit");
-        }else{
+        } else {
           enemy.switchSprite("death");
           enemy.isDead = true;
         }
 
         player.isAttacking = false;
         break;
-      }else if (playerHit[hit] && hit === "legs") {
+      } else if (playerHit[hit] && hit === "legs") {
         console.log("Enemy hited: ", hit);
         enemy.takeHit("legs", player.power);
+        enemy.playSound("hit");
 
-        if (enemy.health > 0){
+        if (enemy.health > 0) {
           enemy.switchSprite("hit");
-        }else{
+        } else {
           enemy.switchSprite("death");
           enemy.isDead = true;
         }
@@ -517,30 +577,27 @@ function update() {
   //----------------------------------------------------------------
   if (enemy.isAttacking && enemy.currentFrame === 1) {
     const enemyHit = {
-      head:(
+      head:
         enemyAB.pos.x + enemyAB.width >= player.hitBoxes.head.pos.x &&
         enemyAB.pos.x <=
           player.hitBoxes.head.pos.x + player.hitBoxes.head.width &&
         enemyAB.pos.y + enemyAB.height >= player.hitBoxes.head.pos.y &&
         enemyAB.pos.y <=
-          player.hitBoxes.head.pos.y + player.hitBoxes.head.height
-      ),
-      body:(
+          player.hitBoxes.head.pos.y + player.hitBoxes.head.height,
+      body:
         enemyAB.pos.x + enemyAB.width >= player.hitBoxes.body.pos.x &&
         enemyAB.pos.x <=
           player.hitBoxes.body.pos.x + player.hitBoxes.body.width &&
         enemyAB.pos.y + enemyAB.height >= player.hitBoxes.body.pos.y &&
         enemyAB.pos.y <=
-          player.hitBoxes.body.pos.y + player.hitBoxes.body.height
-      ),
-      legs:(
+          player.hitBoxes.body.pos.y + player.hitBoxes.body.height,
+      legs:
         enemyAB.pos.x + enemyAB.width >= player.hitBoxes.legs.pos.x &&
         enemyAB.pos.x <=
           player.hitBoxes.legs.pos.x + player.hitBoxes.legs.width &&
         enemyAB.pos.y + enemyAB.height >= player.hitBoxes.legs.pos.y &&
         enemyAB.pos.y <=
-          player.hitBoxes.legs.pos.y + player.hitBoxes.legs.height
-      )
+          player.hitBoxes.legs.pos.y + player.hitBoxes.legs.height,
     };
 
     //----------------------------------------------------------------
@@ -550,145 +607,164 @@ function update() {
       if (enemyHit[hit] && hit === "head") {
         console.log("Player hited:", hit);
         player.takeHit("head", enemy.power);
+        player.playSound("hit");
 
-        if (player.health > 0){
+        if (player.health > 0) {
           player.switchSprite("hit");
-        }else{
+        } else {
           player.switchSprite("death");
           player.isDead = true;
         }
 
         enemy.isAttacking = false;
         break;
-      }else if (enemyHit[hit] && hit === "body") {
+      } else if (enemyHit[hit] && hit === "body") {
         console.log("Player hited:", hit);
         player.takeHit("body", enemy.power);
+        player.playSound("hit");
 
-        if (player.health > 0){
+        if (player.health > 0) {
           player.switchSprite("hit");
-        }else{
+        } else {
           player.switchSprite("death");
           player.isDead = true;
         }
 
         enemy.isAttacking = false;
         break;
-      }else if (enemyHit[hit] && hit === "legs") {
+      } else if (enemyHit[hit] && hit === "legs") {
         console.log("Player hited:", hit);
         player.takeHit("legs", enemy.power);
+        player.playSound("hit");
 
-        if (player.health > 0){
+        if (player.health > 0) {
           player.switchSprite("hit");
-        }else{
+        } else {
           player.switchSprite("death");
           player.isDead = true;
         }
-        
+
         enemy.isAttacking = false;
         break;
       }
     }
-  
   }
 
   //----------------------------------------------------------------
   // IS ATTACKING
   //----------------------------------------------------------------
-  if ((player.image === player.sprites.attack1.image || player.image === player.sprites.attack2.image) && player.currentFrame > 3){
+  if (
+    (player.image === player.sprites.attack1.image ||
+      player.image === player.sprites.attack2.image) &&
+    player.currentFrame > 3
+  ) {
     player.isAttacking = false;
   }
 
-  if ((enemy.image === enemy.sprites.attack1.image || enemy.image === enemy.sprites.attack2.image) && enemy.currentFrame > 0){
+  if (
+    (enemy.image === enemy.sprites.attack1.image ||
+      enemy.image === enemy.sprites.attack2.image) &&
+    enemy.currentFrame > 0
+  ) {
     enemy.isAttacking = false;
   }
 
   //----------------------------------------------------------------
   // IS ALIVE
   //----------------------------------------------------------------
-  if (player.isDead && player.currentFrame === player.sprites.death.framesAmount - 1){
+  if (
+    player.isDead &&
+    player.currentFrame === player.sprites.death.framesAmount - 1
+  ) {
     player.frameCounter = 0;
     gameOver();
   }
-  if (enemy.isDead && enemy.currentFrame === enemy.sprites.death.framesAmount - 1){
+  if (
+    enemy.isDead &&
+    enemy.currentFrame === enemy.sprites.death.framesAmount - 1
+  ) {
     gameOver();
   }
 
   //----------------------------------------------------------------
   // SPAWN STUFF
   //----------------------------------------------------------------
-  if (forStuffCounter % forStuffCountRemainder === 0 && Math.random() > .9 && timerCounter <= maxTimerCounter - 10){
+  if (
+    forStuffCounter % forStuffCountRemainder === 0 &&
+    Math.random() > 0.9 &&
+    timerCounter <= maxTimerCounter - 10
+  ) {
     const size = 40;
     const roles = [
       {
-          name: "kit",
-          imageSrc: './assets/sprites/stuff/pickup/kit.png',
-          sizeCof: 2,
-          imageOffset: {
-            x: -11,
-            y: -11
-          }
+        name: "kit",
+        imageSrc: "./assets/sprites/stuff/pickup/kit.png",
+        sizeCof: 2,
+        imageOffset: {
+          x: -11,
+          y: -11,
+        },
       },
       {
-          name: "def",
-          imageSrc: './assets/sprites/stuff/pickup/def.png',
-          sizeCof: 2,
-          imageOffset: {
-            x: -11,
-            y: -11
-          }
+        name: "def",
+        imageSrc: "./assets/sprites/stuff/pickup/def.png",
+        sizeCof: 2,
+        imageOffset: {
+          x: -11,
+          y: -11,
+        },
       },
       {
-          name: "pow",
-          imageSrc: './assets/sprites/stuff/pickup/pow.png',
-          sizeCof: 2,
-          imageOffset: {
-            x: -11,
-            y: -11
-          }
+        name: "pow",
+        imageSrc: "./assets/sprites/stuff/pickup/pow.png",
+        sizeCof: 2,
+        imageOffset: {
+          x: -11,
+          y: -11,
+        },
       },
-    ]
+    ];
 
-    stuff.push(new Stuff({
-      pos:{
-        x: randNum(size, canvas.width - size),
-        y: -size
-      },
-      width: size,
-      height: size,
-      floor: canvas.height - 110,
-      role: roles[Math.floor(Math.random() * roles.length)]
-    }));
+    stuff.push(
+      new Stuff({
+        pos: {
+          x: randNum(size, canvas.width - size),
+          y: -size,
+        },
+        width: size,
+        height: size,
+        floor: canvas.height - 110,
+        role: roles[Math.floor(Math.random() * roles.length)],
+      })
+    );
   }
 
   //----------------------------------------------------------------
   // PICK UP STUFF
   //----------------------------------------------------------------
-  if (stuff.length > 0){
-    for (let i = stuff.length - 1; i >= 0; i--){
-      const playerPickedUpStuff = (
+  if (stuff.length > 0) {
+    for (let i = stuff.length - 1; i >= 0; i--) {
+      const playerPickedUpStuff =
         player.pos.x + player.width >= stuff[i].pos.x &&
         player.pos.x <= stuff[i].pos.x + stuff[i].width &&
         player.pos.y + player.height >= stuff[i].pos.y &&
-        player.pos.y <= stuff[i].pos.y + stuff[i].height
-      );
+        player.pos.y <= stuff[i].pos.y + stuff[i].height;
 
-      const enemyPickedUpStuff = (
+      const enemyPickedUpStuff =
         enemy.pos.x + enemy.width >= stuff[i].pos.x &&
         enemy.pos.x <= stuff[i].pos.x + stuff[i].width &&
         enemy.pos.y + enemy.height >= stuff[i].pos.y &&
-        enemy.pos.y <= stuff[i].pos.y + stuff[i].height
-      );
+        enemy.pos.y <= stuff[i].pos.y + stuff[i].height;
 
-      if (playerPickedUpStuff){  
+      if (playerPickedUpStuff) {
         player.getBonus(stuff[i].role.name);
         stuff.splice(i, 1);
         continue;
       }
-      
-      if (enemyPickedUpStuff){
+
+      if (enemyPickedUpStuff) {
         enemy.getBonus(stuff[i].role.name);
         stuff.splice(i, 1);
-        continue;
       }
     }
   }
@@ -698,10 +774,10 @@ function update() {
   //----------------------------------------------------------------
   const isBehind = player.pos.x >= enemy.pos.x;
 
-  if (isBehind){
+  if (isBehind) {
     player.attackBox.offset.x = -(playerWidth * 2 - playerWidth) - playerWidth;
     enemy.attackBox.offset.x = playerWidth;
-  }else{
+  } else {
     player.attackBox.offset.x = playerWidth;
     enemy.attackBox.offset.x = -(playerWidth * 2 - playerWidth) - playerWidth;
   }
@@ -710,11 +786,11 @@ function update() {
   // increase stuff counter
   //----------------------------------------------------------------
   forStuffCounter++;
-  
+
   if (gameLoop) requestAnimationFrame(update);
 }
 
-function gameOver(){
+function gameOver() {
   gameLoop = false;
   clearInterval(gameTimer);
 }
@@ -734,11 +810,12 @@ window.addEventListener("keydown", ({ code }) => {
         player.vel.y = -playerJumpForce;
       break;
     case "Space":
-      if (!keys.space.pressed){
+      if (!keys.space.pressed) {
         player.attack();
+
         keys.space.pressed = true;
 
-        setTimeout(()=>{
+        setTimeout(() => {
           keys.space.pressed = false;
         }, 500);
       }
@@ -758,17 +835,16 @@ window.addEventListener("keydown", ({ code }) => {
         enemy.vel.y = -playerJumpForce;
       break;
     case "KeyF":
-      if (!keys.f.pressed){
+      if (!keys.f.pressed) {
         enemy.attack();
         keys.f.pressed = true;
 
-        setTimeout(()=>{
+        setTimeout(() => {
           keys.f.pressed = false;
         }, 500);
       }
   }
 });
-
 
 window.addEventListener("keyup", ({ code }) => {
   switch (code) {
@@ -803,5 +879,5 @@ window.addEventListener("resize", () => {
   player.floor = canvas.height;
   enemy.floor = canvas.height;
 
-  stuff.forEach(stf => stf.floor = canvas.height);
+  stuff.forEach((stf) => (stf.floor = canvas.height));
 });
