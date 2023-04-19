@@ -13,4 +13,5 @@ button{
     color: currentColor;
     line-height: inherit;
     cursor: pointer;
+    font-family: inherit;
 }

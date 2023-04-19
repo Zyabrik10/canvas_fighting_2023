@@ -15,7 +15,7 @@ export class Player extends Sprite {
       upf,
     });
 
-    this.sound = new Sound(soundSrc);
+    this.sounds = new Sound(soundSrc);
 
     this.vel = {
       x: 0,
@@ -35,7 +35,7 @@ export class Player extends Sprite {
 
     this.healthLine = healthLine;
 
-    this.maxHealth = 20;
+    this.maxHealth = 200;
     this.health = this.maxHealth;
 
     this.power = 10;
@@ -274,6 +274,7 @@ export class Player extends Sprite {
           this.framesAmount = this.sprites.attack1.framesAmount;
           this.currentFrame = 0;
           this.upf = this.sprites.attack1.upf;
+          this.attackCounter++;
         }
         break;
       case "attack2":
@@ -282,6 +283,7 @@ export class Player extends Sprite {
           this.framesAmount = this.sprites.attack2.framesAmount;
           this.currentFrame = 0;
           this.upf = this.sprites.attack2.upf;
+          this.attackCounter++;
         }
         break;
       case "hit":

@@ -11,13 +11,18 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.min.css"
     >
 
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
     <!-- own styles -->
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
     <div class="health-timer-box">
         <div id="player-health-box" class="health-box">
-            <div class="player-preview"></div>
+            <div class="pl-pre player-preview"></div>
             <div class="health-bar">
                 <div class="player-health-line health-line"></div>
             </div>
@@ -26,15 +31,16 @@
             <span class="timer-value"></span>
         </div>
         <div id="enemy-health-box" class="health-box">
-            <div class="player-preview"></div>
+            <div class="enm-pre player-preview"></div>
             <div class="health-bar">
                 <div class="enemy-health-line health-line"></div>
             </div>
         </div>
     </div>
+
     <canvas></canvas>
 
-    <div class="user-ui hidden">
+    <div class="user-ui">
         <h1 class="user-ui-title">The JavaScript Fighting Game 2023</h1>
         <ul class="user-ui-buttons">
             <li>

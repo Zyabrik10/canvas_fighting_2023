@@ -11,6 +11,8 @@ body{
     margin: inherit;
     padding: inherit;
     overflow: hidden;
+
+    font-family: 'VT323', monospace;
 }
 
 canvas{

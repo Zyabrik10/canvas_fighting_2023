@@ -9,17 +9,17 @@
 // 7) REFACTOR CODE AND MAKE IT MODULES
 // 8) APPLY PIXELS FONT
 // 9) preload images
+// 10) When player is hitted, he can`t hit back
 // -----------
 
 // ISSUE
-// 1) When the last hit is in head, you die, but health bar doesn't change
+// 1) When the last hit is in head, you die, but health bar is not changed
+// 2) Sometimes first enemy hit doesn't change the health bar
 
 import { Player } from "./js/Player.js";
 import { keys } from "./js/keys.js";
 import { Stuff } from "./js/Stuff.js";
 import { randNum } from "./js/mathFunc.js";
-import { Sprite } from "./js/Sprite.js";
-// import { Particle } from "./Particle.js";
 
 //----------------------------------------------------------------
 // INIT STUFF
@@ -32,8 +32,8 @@ const playerSpeed = 10;
 
 const playersUpf = 5;
  
-let gameLoop = true;
-requestAnimationFrame(update);
+let gameLoop = false;
+// requestAnimationFrame(update);
 
 document.querySelector(".start-game-button").addEventListener("click", function startGame(){
   gameLoop = true;
@@ -43,7 +43,7 @@ document.querySelector(".start-game-button").addEventListener("click", function 
   document.querySelector(".health-timer-box").classList.remove("hidden");
 });
 
-let timerCounter = 100;
+let timerCounter = 60;
 let maxTimerCounter = timerCounter;
 
 const playerSizeCof = 2.3;
@@ -190,12 +190,12 @@ const player = new Player({
     attack1:{
       imageSrc: "./assets/sprites/players/samuraiMack/Attack1.png",
       framesAmount: 6,
-      upf: 4
+      upf: 5
     },
     attack2:{
       imageSrc: "./assets/sprites/players/samuraiMack/Attack2.png",
       framesAmount: 6,
-      upf: 4
+      upf: 5
     },
     hit:{
       imageSrc: "./assets/sprites/players/samuraiMack/Take_Hit.png",
@@ -307,6 +307,7 @@ const enemy = new Player({
       imageSrc: "./assets/sprites/players/kenji/Attack1.png",
       framesAmount: 4,
       upf: 8
+      // 8
     },
     attack2:{
       imageSrc: "./assets/sprites/players/kenji/Attack2.png",
@@ -438,7 +439,7 @@ function update() {
   // player hitbox
   //----------------------------------------------------------------
 
-  if (player.isAttacking && player.currentFrame === 3) {
+  if (player.isAttacking && player.currentFrame === 4) {
 
     const playerHit = {
       head:
@@ -504,18 +505,11 @@ function update() {
           enemy.switchSprite("death");
           enemy.isDead = true;
         }
+
         player.isAttacking = false;
         break;
       }
     }
-  }
-
-  //----------------------------------------------------------------
-  // player stop attacking by achieving last frame os attacking sprite and increase attackCounter*
-  //----------------------------------------------------------------
-  if (player.isAttacking && (player.currentFrame === player.sprites.attack1.framesAmount - 2 || player.currentFrame === player.sprites.attack2.framesAmount - 2)){
-    player.isAttacking = false;
-    player.attackCounter++;
   }
 
   //----------------------------------------------------------------
@@ -575,8 +569,8 @@ function update() {
         }else{
           player.switchSprite("death");
           player.isDead = true;
-        
         }
+
         enemy.isAttacking = false;
         break;
       }else if (enemyHit[hit] && hit === "legs") {
@@ -589,6 +583,7 @@ function update() {
           player.switchSprite("death");
           player.isDead = true;
         }
+        
         enemy.isAttacking = false;
         break;
       }
@@ -596,20 +591,26 @@ function update() {
   
   }
 
+  //----------------------------------------------------------------
+  // IS ATTACKING
+  //----------------------------------------------------------------
+  if ((player.image === player.sprites.attack1.image || player.image === player.sprites.attack2.image) && player.currentFrame > 3){
+    player.isAttacking = false;
+  }
+
+  if ((enemy.image === enemy.sprites.attack1.image || enemy.image === enemy.sprites.attack2.image) && enemy.currentFrame > 0){
+    enemy.isAttacking = false;
+  }
+
+  //----------------------------------------------------------------
+  // IS ALIVE
+  //----------------------------------------------------------------
   if (player.isDead && player.currentFrame === player.sprites.death.framesAmount - 1){
     player.frameCounter = 0;
     gameOver();
   }
   if (enemy.isDead && enemy.currentFrame === enemy.sprites.death.framesAmount - 1){
     gameOver();
-  }
-
-  //----------------------------------------------------------------
-  // enemy stop attacking by achieving last frame os attacking sprite and increase attackCounter*
-  //----------------------------------------------------------------
-  if (enemy.isAttacking && (enemy.currentFrame === enemy.sprites.attack1.framesAmount - 2 || player.currentFrame === enemy.sprites.attack2.framesAmount - 2)){
-    enemy.isAttacking = false;
-    enemy.attackCounter++;
   }
 
   //----------------------------------------------------------------
