@@ -20,40 +20,43 @@
 </head>
 
 <body>
-    <div class="health-timer-box">
-        <div id="player-health-box" class="health-box">
-            <!-- <div class="pl-pre player-preview"></div> -->
-            <div class="health-bar">
-                <div class="player-health-line health-line"></div>
+    <div class="game">
+        <div class="health-timer-box hidden">
+            <div id="player-health-box" class="health-box">
+                <!-- <div class="pl-pre player-preview"></div> -->
+                <div class="health-bar">
+                    <div class="player-health-line health-line"></div>
+                </div>
+            </div>
+            <div id="timer">
+                <span class="timer-value"></span>
+            </div>
+            <div id="enemy-health-box" class="health-box">
+                <!-- <div class="enm-pre player-preview"></div> -->
+                <div class="health-bar">
+                    <div class="enemy-health-line health-line"></div>
+                </div>
             </div>
         </div>
-        <div id="timer">
-            <span class="timer-value"></span>
-        </div>
-        <div id="enemy-health-box" class="health-box">
-            <!-- <div class="enm-pre player-preview"></div> -->
-            <div class="health-bar">
-                <div class="enemy-health-line health-line"></div>
-            </div>
+
+        <canvas></canvas>
+
+        <div class="user-ui">
+            <h1 class="user-ui-title">The JavaScript Fighting Game 2023</h1>
+            <ul class="user-ui-buttons">
+                <li>
+                    <button class="user-ui-button start-game-button" type="button">Play</button>
+                </li>
+                <li>
+                    <button class="user-ui-button" type="button">Options</button>
+                </li>
+                <li>
+                    <button class="user-ui-button" type="button">Credit</button>
+                </li>
+            </ul>
         </div>
     </div>
 
-    <canvas></canvas>
-
-    <div class="user-ui hidden">
-        <h1 class="user-ui-title">The JavaScript Fighting Game 2023</h1>
-        <ul class="user-ui-buttons">
-            <li>
-                <button class="user-ui-button start-game-button" type="button">Play</button>
-            </li>
-            <li>
-                <button class="user-ui-button" type="button">Options</button>
-            </li>
-            <li>
-                <button class="user-ui-button" type="button">Credit</button>
-            </li>
-        </ul>
-    </div>
     <script src="./js/initCanvas.js"></script>
     <script src="./index.js" type="module"></script>
 </body>

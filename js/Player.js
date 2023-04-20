@@ -35,7 +35,7 @@ export class Player extends Sprite {
       y: 0,
     };
 
-    this.lastKey;
+    this.lastKey = undefined;
 
     this.floor = floor;
 
@@ -64,7 +64,7 @@ export class Player extends Sprite {
       sprites[sprite].image.src = sprites[sprite].imageSrc;
     }
 
-    this.sound;
+    this.sound = undefined;
 
     this.sounds = sounds;
 
@@ -85,6 +85,9 @@ export class Player extends Sprite {
     this.attackCounter = 0;
 
     this.isDead = false;
+
+    this.isOnTheGround = false;
+    this.landed = false;
   }
 
   drawCollision() {
@@ -153,6 +156,12 @@ export class Player extends Sprite {
     if (this.pos.y + this.height >= this.floor) {
       this.vel.y = 0;
       this.pos.y = this.floor - this.height;
+      if (!this.landed) {
+        // refactor
+        this.playSound("fall");
+        this.landed = true;
+        this.isOnTheGround = true;
+      }
     }
   }
 
@@ -348,6 +357,7 @@ export class Player extends Sprite {
   }
 
   playSound(sound) {
+    if (this.sound === this.sounds.death.audio) return;
     switch (sound) {
       case "run":
         if (
@@ -363,16 +373,36 @@ export class Player extends Sprite {
 
           setTimeout(() => {
             this.sounds.run.ableToPlay = true;
-          }, 20);
+          }, 100);
         }
         break;
       case "jump":
+        if (this.sound !== this.sounds.jump.audio) {
+          this.sound = this.sounds.jump.audio;
+        }
+
+        this.sound.play();
         break;
       case "fall":
+        if (this.sound !== this.sounds.fall.audio) {
+          this.sound = this.sounds.fall.audio;
+        }
+
+        this.sound.play();
         break;
       case "attack1":
+        if (this.sound !== this.sounds.attack1.audio) {
+          this.sound = this.sounds.attack1.audio;
+        }
+
+        this.sound.play();
         break;
       case "attack2":
+        if (this.sound !== this.sounds.attack2.audio) {
+          this.sound = this.sounds.attack2.audio;
+        }
+
+        this.sound.play();
         break;
       case "hit":
         if (this.sound !== this.sounds.hit.audio) {
@@ -383,9 +413,13 @@ export class Player extends Sprite {
         }
 
         this.sound.play();
-
         break;
       case "death":
+        if (this.sound !== this.sounds.death.audio) {
+          this.sound = this.sounds.death.audio;
+        }
+
+        this.sound.play();
         break;
     }
   }

@@ -1,6 +1,16 @@
 @import url("./general.css");
 @import url("./reset.css");
 
+.game {
+  position: absolute;
+  width: 1200px;
+  height: 700px;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .health-timer-box {
   position: absolute;
   top: 20px;
@@ -31,8 +41,8 @@
   width: 100px;
   height: 100px;
 
-  background-color: transparent;
-  background: url("../assets/sprites/gui/01_Basic_Collection/01_Flat_Theme/Sprites/bg3.png");
+  background: orange
+    url("../assets/sprites/gui/01_Basic_Collection/01_Flat_Theme/Sprites/bg3.png");
   background-size: contain;
   background-position: center;
 

@@ -32,8 +32,10 @@ const playerSpeed = 10;
 
 const playersUpf = 5;
 
-let gameLoop = true;
-requestAnimationFrame(update);
+const generalFloor = canvas.height - 124;
+
+let gameLoop = false;
+// requestAnimationFrame(update);
 
 document
   .querySelector(".start-game-button")
@@ -166,7 +168,7 @@ const player = new Player({
   healthLine: document.querySelector(".player-health-line"),
   imageSrc: "./assets/sprites/players/samuraiMack/Idle.png",
   sizeCof: playerSizeCof,
-  floor: canvas.height - 110,
+  floor: generalFloor,
   imageOffset: {
     x: -195,
     y: -155,
@@ -218,12 +220,23 @@ const player = new Player({
   sounds: {
     run: {
       audioSrc: "./assets/audio/run/run_1.mp3",
-      audiosSrc: ["./assets/audio/run/run_2.mp3"],
+      audiosSrc: [
+        "./assets/audio/run/run_1.mp3",
+        "./assets/audio/run/run_2.mp3",
+      ],
     },
-    jump: {},
-    fall: {},
-    attack1: {},
-    attack2: {},
+    jump: {
+      audioSrc: "./assets/audio/jump/jump.mp3",
+    },
+    fall: {
+      audioSrc: "./assets/audio/landing/landing.mp3",
+    },
+    attack1: {
+      audioSrc: "./assets/audio/attack/attack_1.mp3",
+    },
+    attack2: {
+      audioSrc: "./assets/audio/attack/attack_2.mp3",
+    },
     hit: {
       audioSrc: "./assets/audio/get_hit/get_hit_1.mp3",
       audiosSrc: [
@@ -232,7 +245,9 @@ const player = new Player({
         "./assets/audio/get_hit/get_hit_3.mp3",
       ],
     },
-    death: {},
+    death: {
+      audioSrc: "./assets/audio/get_hit/get_hit_3.mp3",
+    },
   },
 });
 
@@ -304,7 +319,7 @@ const enemy = new Player({
   healthLine: document.querySelector(".enemy-health-line"),
   imageSrc: "./assets/sprites/players/kenji/Idle.png",
   sizeCof: playerSizeCof,
-  floor: canvas.height - 110,
+  floor: generalFloor,
   imageOffset: {
     x: -190,
     y: -167,
@@ -357,12 +372,23 @@ const enemy = new Player({
   sounds: {
     run: {
       audioSrc: "./assets/audio/run/run_1.mp3",
-      audiosSrc: ["./assets/audio/run/run_2.mp3"],
+      audiosSrc: [
+        "./assets/audio/run/run_1.mp3",
+        "./assets/audio/run/run_2.mp3",
+      ],
     },
-    jump: {},
-    fall: {},
-    attack1: {},
-    attack2: {},
+    jump: {
+      audioSrc: "./assets/audio/jump/jump.mp3",
+    },
+    fall: {
+      audioSrc: "./assets/audio/landing/landing.mp3",
+    },
+    attack1: {
+      audioSrc: "./assets/audio/attack/attack_1.mp3",
+    },
+    attack2: {
+      audioSrc: "./assets/audio/attack/attack_2.mp3",
+    },
     hit: {
       audioSrc: "./assets/audio/get_hit/get_hit_1.mp3",
       audiosSrc: [
@@ -371,7 +397,9 @@ const enemy = new Player({
         "./assets/audio/get_hit/get_hit_3.mp3",
       ],
     },
-    death: {},
+    death: {
+      audioSrc: "./assets/audio/get_hit/get_hit_3.mp3",
+    },
   },
 });
 
@@ -470,6 +498,11 @@ function update() {
   //----------------------------------------------------------------
   if (player.vel.y < 0) {
     player.switchSprite("jump");
+    if (player.isOnTheGround) {
+      player.playSound("jump");
+      player.isOnTheGround = false;
+      player.landed = false;
+    }
   } else if (player.vel.y > 0) {
     player.switchSprite("fall");
   }
@@ -480,6 +513,11 @@ function update() {
 
   if (enemy.vel.y < 0) {
     enemy.switchSprite("jump");
+    if (enemy.isOnTheGround) {
+      enemy.playSound("jump");
+      enemy.isOnTheGround = false;
+      enemy.landed = false;
+    }
   } else if (enemy.vel.y > 0) {
     enemy.switchSprite("fall");
   }
@@ -498,6 +536,9 @@ function update() {
   //----------------------------------------------------------------
 
   if (player.isAttacking && player.currentFrame === 4) {
+    if (player.attackCounter % 2 === 0) player.playSound("attack1");
+    else player.playSound("attack2");
+
     const playerHit = {
       head:
         playerAB.pos.x + playerAB.width >= enemy.hitBoxes.head.pos.x &&
@@ -529,43 +570,46 @@ function update() {
       if (playerHit[hit] && hit === "head") {
         console.log("Enemy hited: ", hit);
         enemy.takeHit("head", player.power);
-        enemy.playSound("hit");
 
         if (enemy.health > 0) {
           enemy.switchSprite("hit");
         } else {
           enemy.switchSprite("death");
+          enemy.playSound("death");
           enemy.isDead = true;
         }
 
+        enemy.playSound("hit");
         player.isAttacking = false;
         break;
       } else if (playerHit[hit] && hit === "body") {
         console.log("Enemy hited: ", hit);
         enemy.takeHit("body", player.power);
-        enemy.playSound("hit");
 
         if (enemy.health > 0) {
           enemy.switchSprite("hit");
         } else {
           enemy.switchSprite("death");
+          enemy.playSound("death");
           enemy.isDead = true;
         }
 
+        enemy.playSound("hit");
         player.isAttacking = false;
         break;
       } else if (playerHit[hit] && hit === "legs") {
         console.log("Enemy hited: ", hit);
         enemy.takeHit("legs", player.power);
-        enemy.playSound("hit");
 
         if (enemy.health > 0) {
           enemy.switchSprite("hit");
         } else {
           enemy.switchSprite("death");
+          enemy.playSound("death");
           enemy.isDead = true;
         }
 
+        enemy.playSound("hit");
         player.isAttacking = false;
         break;
       }
@@ -576,6 +620,9 @@ function update() {
   // enemy hitbox
   //----------------------------------------------------------------
   if (enemy.isAttacking && enemy.currentFrame === 1) {
+    if (enemy.attackCounter % 2 === 0) enemy.playSound("attack1");
+    else enemy.playSound("attack2");
+
     const enemyHit = {
       head:
         enemyAB.pos.x + enemyAB.width >= player.hitBoxes.head.pos.x &&
@@ -607,43 +654,46 @@ function update() {
       if (enemyHit[hit] && hit === "head") {
         console.log("Player hited:", hit);
         player.takeHit("head", enemy.power);
-        player.playSound("hit");
 
         if (player.health > 0) {
           player.switchSprite("hit");
         } else {
           player.switchSprite("death");
+          player.playSound("death");
           player.isDead = true;
         }
 
+        player.playSound("hit");
         enemy.isAttacking = false;
         break;
       } else if (enemyHit[hit] && hit === "body") {
         console.log("Player hited:", hit);
         player.takeHit("body", enemy.power);
-        player.playSound("hit");
 
         if (player.health > 0) {
           player.switchSprite("hit");
         } else {
           player.switchSprite("death");
+          player.playSound("death");
           player.isDead = true;
         }
 
+        player.playSound("hit");
         enemy.isAttacking = false;
         break;
       } else if (enemyHit[hit] && hit === "legs") {
         console.log("Player hited:", hit);
         player.takeHit("legs", enemy.power);
-        player.playSound("hit");
 
         if (player.health > 0) {
           player.switchSprite("hit");
         } else {
           player.switchSprite("death");
+          player.playSound("death");
           player.isDead = true;
         }
 
+        player.playSound("hit");
         enemy.isAttacking = false;
         break;
       }
@@ -676,7 +726,6 @@ function update() {
     player.isDead &&
     player.currentFrame === player.sprites.death.framesAmount - 1
   ) {
-    player.frameCounter = 0;
     gameOver();
   }
   if (
@@ -689,11 +738,7 @@ function update() {
   //----------------------------------------------------------------
   // SPAWN STUFF
   //----------------------------------------------------------------
-  if (
-    forStuffCounter % forStuffCountRemainder === 0 &&
-    Math.random() > 0.9 &&
-    timerCounter <= maxTimerCounter - 10
-  ) {
+  if (forStuffCounter % forStuffCountRemainder === 0 && Math.random() > 0.7) {
     const size = 40;
     const roles = [
       {
@@ -733,7 +778,7 @@ function update() {
         },
         width: size,
         height: size,
-        floor: canvas.height - 110,
+        floor: generalFloor,
         role: roles[Math.floor(Math.random() * roles.length)],
       })
     );
