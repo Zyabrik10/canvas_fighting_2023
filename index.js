@@ -217,19 +217,19 @@ const player = new Player({
   },
   sounds: {
     run: {
-      audioSrc: "../assets/audio/run/run_1.mp3",
-      audiosSrc: ["../assets/audio/run/run_2.mp3"],
+      audioSrc: "./assets/audio/run/run_1.mp3",
+      audiosSrc: ["./assets/audio/run/run_2.mp3"],
     },
     jump: {},
     fall: {},
     attack1: {},
     attack2: {},
     hit: {
-      audioSrc: "../assets/audio/get_hit/get_hit_1.mp3",
+      audioSrc: "./assets/audio/get_hit/get_hit_1.mp3",
       audiosSrc: [
-        "../assets/audio/get_hit/get_hit_1.mp3",
-        "../assets/audio/get_hit/get_hit_2.mp3",
-        "../assets/audio/get_hit/get_hit_3.mp3",
+        "./assets/audio/get_hit/get_hit_1.mp3",
+        "./assets/audio/get_hit/get_hit_2.mp3",
+        "./assets/audio/get_hit/get_hit_3.mp3",
       ],
     },
     death: {},
@@ -356,19 +356,19 @@ const enemy = new Player({
   },
   sounds: {
     run: {
-      audioSrc: "../assets/audio/run/run_1.mp3",
-      audiosSrc: ["../assets/audio/run/run_2.mp3"],
+      audioSrc: "./assets/audio/run/run_1.mp3",
+      audiosSrc: ["./assets/audio/run/run_2.mp3"],
     },
     jump: {},
     fall: {},
     attack1: {},
     attack2: {},
     hit: {
-      audioSrc: "../assets/audio/get_hit/get_hit_1.mp3",
+      audioSrc: "./assets/audio/get_hit/get_hit_1.mp3",
       audiosSrc: [
-        "../assets/audio/get_hit/get_hit_1.mp3",
-        "../assets/audio/get_hit/get_hit_2.mp3",
-        "../assets/audio/get_hit/get_hit_3.mp3",
+        "./assets/audio/get_hit/get_hit_1.mp3",
+        "./assets/audio/get_hit/get_hit_2.mp3",
+        "./assets/audio/get_hit/get_hit_3.mp3",
       ],
     },
     death: {},
