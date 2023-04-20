@@ -32,7 +32,7 @@ const playerSpeed = 10;
 
 const playersUpf = 5;
 
-const generalFloor = canvas.height - 124;
+const generalFloor = canvas.height - 105;
 
 let gameLoop = false;
 // requestAnimationFrame(update);
