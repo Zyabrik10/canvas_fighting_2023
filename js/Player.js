@@ -364,16 +364,15 @@ export class Player extends Sprite {
           this.sounds.run.ableToPlay &&
           this.sounds.run.audio !== this.sound
         ) {
-          this.sound =
-            this.sounds.run.audios[
-              Math.floor(Math.random() * this.sounds.run.audios.length)
-            ];
+          this.sound = this.sounds.run.audios[1];
+
           this.sound.play();
-          this.sounds.run.ableToPlay = false;
+
+          this.sounds.run.ableToPlay = true;
 
           setTimeout(() => {
             this.sounds.run.ableToPlay = true;
-          }, 100);
+          }, 5);
         }
         break;
       case "jump":
