@@ -428,7 +428,7 @@ export class Player extends Sprite {
     this.move();
     this.draw();
     this.updateFrame();
-    // this.drawCollision();
+    this.drawCollision();
 
     this.attackBox.pos.x = this.pos.x + this.attackBox.offset.x;
     this.attackBox.pos.y = this.pos.y + this.attackBox.offset.y;
