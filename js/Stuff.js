@@ -5,7 +5,7 @@ export class Stuff extends Sprite {
   roles = [
     {
       name: "kit",
-      imageSrc: "../assets/sprites/stuff/pickup/kit.png",
+      imageSrc: "./assets/sprites/stuff/pickup/kit.png",
       sizeCof: 2,
       imageOffset: {
         x: -11,
@@ -14,7 +14,7 @@ export class Stuff extends Sprite {
     },
     {
       name: "def",
-      imageSrc: "../assets/sprites/stuff/pickup/def.png",
+      imageSrc: "./assets/sprites/stuff/pickup/def.png",
       sizeCof: 2,
       imageOffset: {
         x: -11,
@@ -23,7 +23,7 @@ export class Stuff extends Sprite {
     },
     {
       name: "pow",
-      imageSrc: "../assets/sprites/stuff/pickup/pow.png",
+      imageSrc: "./assets/sprites/stuff/pickup/pow.png",
       sizeCof: 2,
       imageOffset: {
         x: -11,
