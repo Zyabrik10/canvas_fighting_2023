@@ -88,6 +88,8 @@ export class Player extends Sprite {
 
     this.isOnTheGround = false;
     this.landed = false;
+
+    this.playerSpeed = 10;
   }
 
   drawCollision() {
@@ -423,7 +425,169 @@ export class Player extends Sprite {
     }
   }
 
+  movePlayerOn(leftButton, rightButton) {
+    if (leftButton.pressed && this.lastKey === leftButton.btn) {
+      this.vel.x = -this.playerSpeed;
+      if (this.vel.y === 0) {
+        this.switchSprite("run");
+        this.playSound("run");
+      }
+    } else if (rightButton.pressed && this.lastKey === rightButton.btn) {
+      this.vel.x = this.playerSpeed;
+      if (this.vel.y === 0) {
+        this.switchSprite("run");
+        this.playSound("run");
+      }
+    } else if (this.vel.y === 0) {
+      this.switchSprite("idle");
+    }
+  }
+
+  ifJumped() {
+    if (this.vel.y < 0) {
+      this.switchSprite("jump");
+      if (this.isOnTheGround) {
+        this.playSound("jump");
+        this.isOnTheGround = false;
+        this.landed = false;
+      }
+    } else if (this.vel.y > 0) {
+      this.switchSprite("fall");
+    }
+  }
+
+  checkHitBox(enemy, frame) {
+    if (enemy.isAttacking && enemy.currentFrame === frame) {
+      if (enemy.attackCounter % 2 === 0) enemy.playSound("attack1");
+      else enemy.playSound("attack2");
+
+      const enemyHit = {
+        head:
+          enemy.attackBox.pos.x + enemy.attackBox.width >=
+            this.hitBoxes.head.pos.x &&
+          enemy.attackBox.pos.x <=
+            this.hitBoxes.head.pos.x + this.hitBoxes.head.width &&
+          enemy.attackBox.pos.y + enemy.attackBox.height >=
+            this.hitBoxes.head.pos.y &&
+          enemy.attackBox.pos.y <=
+            this.hitBoxes.head.pos.y + this.hitBoxes.head.height,
+        body:
+          enemy.attackBox.pos.x + enemy.attackBox.width >=
+            this.hitBoxes.body.pos.x &&
+          enemy.attackBox.pos.x <=
+            this.hitBoxes.body.pos.x + this.hitBoxes.body.width &&
+          enemy.attackBox.pos.y + enemy.attackBox.height >=
+            this.hitBoxes.body.pos.y &&
+          enemy.attackBox.pos.y <=
+            this.hitBoxes.body.pos.y + this.hitBoxes.body.height,
+        legs:
+          enemy.attackBox.pos.x + enemy.attackBox.width >=
+            this.hitBoxes.legs.pos.x &&
+          enemy.attackBox.pos.x <=
+            this.hitBoxes.legs.pos.x + this.hitBoxes.legs.width &&
+          enemy.attackBox.pos.y + enemy.attackBox.height >=
+            this.hitBoxes.legs.pos.y &&
+          enemy.attackBox.pos.y <=
+            this.hitBoxes.legs.pos.y + this.hitBoxes.legs.height,
+      };
+
+      for (const hit in enemyHit) {
+        if (enemyHit[hit] && hit === "head") {
+          console.log("this hited:", hit);
+          this.takeHit("head", enemy.power);
+
+          if (this.health > 0) {
+            this.switchSprite("hit");
+          } else {
+            this.switchSprite("death");
+            this.playSound("death");
+            this.isDead = true;
+          }
+
+          this.playSound("hit");
+          enemy.isAttacking = false;
+          break;
+        } else if (enemyHit[hit] && hit === "body") {
+          console.log("this hited:", hit);
+          this.takeHit("body", enemy.power);
+
+          if (this.health > 0) {
+            this.switchSprite("hit");
+          } else {
+            this.switchSprite("death");
+            this.playSound("death");
+            this.isDead = true;
+          }
+
+          this.playSound("hit");
+          enemy.isAttacking = false;
+          break;
+        } else if (enemyHit[hit] && hit === "legs") {
+          console.log("this hited:", hit);
+          this.takeHit("legs", enemy.power);
+
+          if (this.health > 0) {
+            this.switchSprite("hit");
+          } else {
+            this.switchSprite("death");
+            this.playSound("death");
+            this.isDead = true;
+          }
+
+          this.playSound("hit");
+          enemy.isAttacking = false;
+          break;
+        }
+      }
+    }
+  }
+
+  checkIfIsAttacking(frame) {
+    if (
+      (this.image === this.sprites.attack1.image ||
+        this.image === this.sprites.attack2.image) &&
+      this.currentFrame > frame
+    ) {
+      this.isAttacking = false;
+    }
+  }
+
+  checkIfIsAlive(gameOver) {
+    if (
+      this.isDead &&
+      this.currentFrame === this.sprites.death.framesAmount - 1
+    ) {
+      gameOver();
+    }
+  }
+
+  canPickUpStuff(stuff) {
+    return (
+      this.pos.x + this.width >= stuff.pos.x &&
+      this.pos.x <= stuff.pos.x + stuff.width &&
+      this.pos.y + this.height >= stuff.pos.y &&
+      this.pos.y <= stuff.pos.y + stuff.height
+    );
+  }
+
+  isBehind(enemy) {
+    if (this.pos.x >= enemy.pos.x) {
+      this.attackBox.offset.x =
+        -(this.playerWidth * 2 - this.width) - this.width;
+      enemy.attackBox.offset.x = this.width;
+    } else {
+      this.attackBox.offset.x = this.width;
+      enemy.attackBox.offset.x =
+        -(this.playerWidth * 2 - this.width) - this.width;
+    }
+  }
+
   update() {
+    // if (Number.isNaN(this.attackBox.pos.x)) {
+    //   debugger;
+    //   return;
+    // }
+
     this.fall();
     this.move();
     this.draw();
