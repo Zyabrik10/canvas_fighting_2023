@@ -2,18 +2,13 @@
 // -----------
 // 1) MAKE SUPER HIT with charging
 // 2) MAKE SHURICANS
-// 3) MAKE SOUNDS
-// 4) MAKE UI
-// 5) MAKE PARTICKLES ABOVE FEET
-// 6) MAKE MUSIC
-// 7) REFACTOR CODE AND MAKE IT MODULES
-// 8) preload images
+// 3) MAKE PARTICKLES ABOVE FEET
+// 4) MAKE MUSIC
+// 5) PREALOAD IMAGES
 // -----------
 
-// ISSUE
+// BUGS
 // 1) When the last hit is in head, you die, but health bar is not changed
-// 2) Sometimes first enemy hit doesn't change the health bar
-// 3) When player is hitted, he can`t hit back
 
 import { keys } from "./js/keys.js";
 import { Stuff } from "./js/Stuff.js";
@@ -127,9 +122,8 @@ function gameOver() {
   gameLoop = false;
   isButtonClicked = false;
   timerCounter = maxTimerCounter;
-  // ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   clearInterval(gameTimer);
-  // showUserInterFace();
 }
 
 window.addEventListener("keydown", ({ code }) => {
