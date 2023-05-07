@@ -546,13 +546,12 @@ export class Player extends Sprite {
 
   isBehind(enemy) {
     if (this.pos.x >= enemy.pos.x) {
-      this.attackBox.offset.x =
-        -(this.playerWidth * 2 - this.width) - this.width;
-      enemy.attackBox.offset.x = this.width;
+      console.log();
+      this.attackBox.offset.x = -(this.width * 2 - this.width) - this.width;
+      enemy.attackBox.offset.x = enemy.width;
     } else {
       this.attackBox.offset.x = this.width;
-      enemy.attackBox.offset.x =
-        -(this.playerWidth * 2 - this.width) - this.width;
+      enemy.attackBox.offset.x = -(this.width * 2 - this.width) - this.width;
     }
   }
 
