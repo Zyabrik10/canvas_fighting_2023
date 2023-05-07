@@ -294,7 +294,6 @@ export const enemy = new Player({
       imageSrc: "./assets/sprites/players/kenji/Attack1.png",
       framesAmount: 4,
       upf: 8,
-      // 8
     },
     attack2: {
       imageSrc: "./assets/sprites/players/kenji/Attack2.png",
