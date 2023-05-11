@@ -5,7 +5,7 @@ import { generalFloor } from "./initGlobalVariables.js";
 export class Particle extends Sprite {
   constructor({
     pos,
-    color = "rgba(100, 100, 100, 0.6)",
+    color = "rgba(100, 100, 100, 0.8)",
     vel,
     imageSrc = "",
     sizeCof = 1,
