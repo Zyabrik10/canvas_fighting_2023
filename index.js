@@ -2,9 +2,8 @@
 // -----------
 // 1) MAKE SUPER HIT with charging
 // 2) MAKE SHURICANS
-// 3) MAKE PARTICKLES ABOVE FEET
-// 4) MAKE MUSIC
-// 5) PREALOAD IMAGES
+// 3) MAKE MUSIC
+// 4) PREALOAD IMAGES
 // -----------
 
 // BUGS
@@ -12,7 +11,7 @@
 
 import { keys } from "./js/keys.js";
 import { Stuff } from "./js/Stuff.js";
-import { generalFloor } from "./js/initGlobalVariables.js";
+import { generalFloor, stuff, particles } from "./js/initGlobalVariables.js";
 import { hideUserInterFace } from "./js/userInterface.js";
 import { player, enemy, playerJumpForce } from "./js/players.js";
 
@@ -47,8 +46,6 @@ const maxTimerCounter = timerCounter;
 let forStuffCounter = 0;
 let forStuffCountRemainder = 200;
 
-const stuff = [];
-
 document
   .querySelector(".start-game-button")
   .addEventListener("click", function startGame() {
@@ -64,6 +61,15 @@ function update() {
   player.update();
   enemy.update();
   stuff.forEach((obj) => obj.update());
+  if (particles.length) {
+    particles.forEach((particle, index) => {
+      particle.update();
+
+      if (particle.alpha <= 0) {
+        particles.splice(index, 1);
+      }
+    });
+  }
 
   // RESET PLAYERS VELOCITY
   player.vel.x = 0;

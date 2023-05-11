@@ -1,3 +1,4 @@
+import { generalFloor } from "./initGlobalVariables.js";
 import { randNum } from "./mathFunc.js";
 import { Sprite } from "./Sprite.js";
 
@@ -34,7 +35,7 @@ export class Stuff extends Sprite {
 
   role = this.roles[Math.floor(Math.random() * this.roles.length)];
 
-  constructor({ floor = canvas.height, size = 40 }) {
+  constructor({ floor = generalFloor, size = 40 }) {
     super({
       width: size,
       height: size,

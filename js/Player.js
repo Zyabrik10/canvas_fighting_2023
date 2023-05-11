@@ -1,4 +1,7 @@
 import { Sprite } from "./Sprite.js";
+import { Particle } from "./Particle.js";
+import { random, cos, sin, pi } from "./mathFunc.js";
+import { particles, generalFloor } from "./initGlobalVariables.js";
 
 export class Player extends Sprite {
   constructor({
@@ -11,7 +14,7 @@ export class Player extends Sprite {
     healthLine,
     imageSrc,
     sizeCof,
-    floor = canvas.height,
+    floor = generalFloor,
     imageOffset,
     framesAmount = 1,
     upf = 2,
@@ -159,10 +162,39 @@ export class Player extends Sprite {
       this.vel.y = 0;
       this.pos.y = this.floor - this.height;
       if (!this.landed) {
-        // refactor
         this.playSound("fall");
         this.landed = true;
         this.isOnTheGround = true;
+
+        const num = 50;
+        const power = 15;
+
+        const radX_right = random() * (pi / 4);
+        const radX_left = random() * (pi - pi / 4 - pi / 2) + pi / 2;
+
+        const radY_right = random() * (pi / 2);
+        const radY_left = random() * (pi - pi / 2) + pi / 2;
+
+        for (let i = 0; i < num; i++) {
+          particles.push(
+            new Particle({
+              pos: {
+                x: this.pos.x + this.width / 2,
+                y: this.pos.y + this.height - 12,
+              },
+              vel: {
+                x:
+                  random() > 0.5
+                    ? cos(radX_left) * random() * power
+                    : cos(radX_right) * random() * power,
+                y:
+                  random() > 0.5
+                    ? -sin(radY_left) * random() * power
+                    : -sin(radY_right) * random() * power,
+              },
+            })
+          );
+        }
       }
     }
   }
@@ -399,19 +431,60 @@ export class Player extends Sprite {
   }
 
   movePlayerOn(leftButton, rightButton) {
+    const powerX = 1;
+    const powerY = 10;
+
     if (leftButton.pressed && this.lastKey === leftButton.btn) {
       this.vel.x = -this.playerSpeed;
-      if (this.vel.y === 0) {
+      if (this.isOnTheGround && !this.collidedWithWall()) {
         this.switchSprite("run");
         this.playSound("run");
+
+        const radX = random() * (pi / 2);
+        const radY = random() * (pi / 2 - pi / 8) + pi / 8;
+
+        const velX = cos(radX) * random() * powerX;
+        const velY = -sin(radY) * random() * powerY;
+
+        particles.push(
+          new Particle({
+            pos: {
+              x: this.pos.x + this.width / 2,
+              y: this.pos.y + this.height - 12,
+            },
+            vel: {
+              x: velX,
+              y: velY,
+            },
+          })
+        );
       }
     } else if (rightButton.pressed && this.lastKey === rightButton.btn) {
       this.vel.x = this.playerSpeed;
-      if (this.vel.y === 0) {
+      if (this.isOnTheGround && !this.collidedWithWall()) {
         this.switchSprite("run");
         this.playSound("run");
+
+        const radX = random() * (pi - pi / 2) + pi / 2;
+        const radY = random() * (pi - pi / 8 - pi / 2) + pi / 2;
+
+        const velX = cos(radX) * random() * powerX;
+        const velY = -sin(radY) * random() * powerY;
+
+        particles.push(
+          new Particle({
+            pos: {
+              x: this.pos.x + this.width / 2,
+              y: this.pos.y + this.height - 12,
+            },
+            vel: {
+              x: velX,
+              y: velY,
+            },
+          })
+        );
       }
-    } else if (this.vel.y === 0) {
+    } else if (this.isOnTheGround) {
       this.switchSprite("idle");
     }
   }
@@ -553,6 +626,10 @@ export class Player extends Sprite {
       this.attackBox.offset.x = this.width;
       enemy.attackBox.offset.x = -(this.width * 2 - this.width) - this.width;
     }
+  }
+
+  collidedWithWall() {
+    return this.pos.x <= 0 || this.pos.x + this.width >= canvas.width;
   }
 
   update() {
