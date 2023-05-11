@@ -436,7 +436,8 @@ export class Player extends Sprite {
 
     if (leftButton.pressed && this.lastKey === leftButton.btn) {
       this.vel.x = -this.playerSpeed;
-      if (this.isOnTheGround && !this.collidedWithWall()) {
+      console.log(this.collidedWithWall());
+      if (this.isOnTheGround) {
         this.switchSprite("run");
         this.playSound("run");
 
@@ -461,7 +462,7 @@ export class Player extends Sprite {
       }
     } else if (rightButton.pressed && this.lastKey === rightButton.btn) {
       this.vel.x = this.playerSpeed;
-      if (this.isOnTheGround && !this.collidedWithWall()) {
+      if (this.isOnTheGround) {
         this.switchSprite("run");
         this.playSound("run");
 
@@ -637,7 +638,7 @@ export class Player extends Sprite {
     this.move();
     this.draw();
     this.updateFrame();
-    this.drawCollision();
+    // this.drawCollision();
 
     this.attackBox.pos.x = this.pos.x + this.attackBox.offset.x;
     this.attackBox.pos.y = this.pos.y + this.attackBox.offset.y;
