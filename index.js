@@ -8,6 +8,7 @@
 
 // BUGS
 // 1) When the last hit is in head, you die, but health bar is not changed
+// 2) Whe player encounter the wall the animation doesn`t stop
 
 import { keys } from "./js/keys.js";
 import { Stuff } from "./js/Stuff.js";
