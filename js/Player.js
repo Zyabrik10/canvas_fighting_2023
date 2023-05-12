@@ -1,6 +1,6 @@
 import { Sprite } from "./Sprite.js";
 import { Particle } from "./Particle.js";
-import { random, cos, sin, pi } from "./mathFunc.js";
+import { random, cos, sin, pi, randNum } from "./mathFunc.js";
 import { particles, generalFloor } from "./initGlobalVariables.js";
 
 export class Player extends Sprite {
@@ -223,24 +223,103 @@ export class Player extends Sprite {
 
   takeHit(part, power) {
     let powerHit;
+
+    const bloodNumber = randNum(10, 20);
+    const powerX = 5;
+    const powerY = 10;
+    const bloodColor = "rgba(228, 30, 30, 0.7)";
+
     switch (part) {
       case "head":
         powerHit = power * this.defence * 2;
         this.health -= powerHit;
         this.healthLine.style.width =
           (this.health / this.maxHealth) * 100 + "%";
+
+        for (let i = 0; i < bloodNumber; i++) {
+          const rad = random() * pi;
+
+          particles.push(
+            new Particle({
+              pos: {
+                x:
+                  this.hitBoxes.head.pos.x +
+                  this.hitBoxes.head.width / 2 +
+                  (this.hitBoxes.head.width / 4) * (randNum(-10, 10) / 10),
+                y:
+                  this.hitBoxes.head.pos.y +
+                  this.hitBoxes.head.height / 2 +
+                  (this.hitBoxes.head.height / 4) * (randNum(-10, 10) / 10),
+              },
+              vel: {
+                x: cos(rad) * random() * powerX,
+                y: cos(rad) * random() * powerY,
+              },
+              color: bloodColor,
+            })
+          );
+        }
         break;
       case "body":
         powerHit = power * this.defence;
         this.health -= powerHit;
         this.healthLine.style.width =
           (this.health / this.maxHealth) * 100 + "%";
+
+        for (let i = 0; i < bloodNumber; i++) {
+          const rad = random() * pi;
+
+          particles.push(
+            new Particle({
+              pos: {
+                x:
+                  this.hitBoxes.body.pos.x +
+                  this.hitBoxes.body.width / 2 +
+                  (this.hitBoxes.body.width / 4) * (randNum(-10, 10) / 10),
+                y:
+                  this.hitBoxes.body.pos.y +
+                  this.hitBoxes.body.height / 2 +
+                  (this.hitBoxes.body.height / 4) * (randNum(-10, 10) / 10),
+              },
+              vel: {
+                x: cos(rad) * random() * powerX,
+                y: cos(rad) * random() * powerY,
+              },
+              color: bloodColor,
+            })
+          );
+        }
         break;
       case "legs":
         powerHit = power * this.defence * 0.5;
         this.health -= powerHit;
         this.healthLine.style.width =
           (this.health / this.maxHealth) * 100 + "%";
+
+        for (let i = 0; i < bloodNumber; i++) {
+          const rad = random() * pi;
+
+          particles.push(
+            new Particle({
+              pos: {
+                x:
+                  this.hitBoxes.body.pos.x +
+                  this.hitBoxes.body.width / 2 +
+                  (this.hitBoxes.body.width / 4) * (randNum(-10, 10) / 10),
+                y:
+                  this.hitBoxes.body.pos.y +
+                  this.hitBoxes.body.height / 2 +
+                  (this.hitBoxes.head.height / 4) * (randNum(-10, 10) / 10),
+              },
+              vel: {
+                x: cos(rad) * random() * powerX,
+                y: cos(rad) * random() * powerY,
+              },
+              color: bloodColor,
+            })
+          );
+        }
+
         break;
     }
 
@@ -436,7 +515,6 @@ export class Player extends Sprite {
 
     if (leftButton.pressed && this.lastKey === leftButton.btn) {
       this.vel.x = -this.playerSpeed;
-      console.log(this.collidedWithWall());
       if (this.isOnTheGround) {
         this.switchSprite("run");
         this.playSound("run");
