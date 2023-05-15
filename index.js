@@ -4,10 +4,13 @@
 // 2) MAKE SHURICANS
 // 3) MAKE MUSIC
 // 4) PREALOAD IMAGES
+// 5) MAKE UI SETTINGS
+// 6) ADD PREVIEW VOIS ROUND 1
+// 7) MAKE MULRYROUND GAME
 // -----------
 
 // BUGS
-// 1) When the last hit is in head, you die, but health bar is not changed
+// 1) When the last hit, you die, but health bar is not changed
 // 2) Whe player encounter the wall the animation doesn`t stop
 
 import { keys } from "./js/keys.js";
