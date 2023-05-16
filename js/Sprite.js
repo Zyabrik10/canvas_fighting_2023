@@ -1,4 +1,4 @@
-export class Sprite {
+export default class Sprite {
   constructor({
     imageSrc,
     pos,

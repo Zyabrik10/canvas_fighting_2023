@@ -1,8 +1,8 @@
-import { Sprite } from "./Sprite.js";
+import Sprite from "./Sprite.js";
 import { randNum } from "./mathFunc.js";
 import { generalFloor } from "./initGlobalVariables.js";
 
-export class Particle extends Sprite {
+export default class Particle extends Sprite {
   constructor({
     pos,
     color = "rgba(100, 100, 100, 0.8)",

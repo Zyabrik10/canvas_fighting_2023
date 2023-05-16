@@ -1,8 +1,8 @@
 import { generalFloor } from "./initGlobalVariables.js";
 import { randNum } from "./mathFunc.js";
-import { Sprite } from "./Sprite.js";
+import Sprite from "./Sprite.js";
 
-export class Stuff extends Sprite {
+export default class Stuff extends Sprite {
   roles = [
     {
       name: "kit",

@@ -1,4 +1,4 @@
-import { Player } from "./Player.js";
+import Player from "./Player.js";
 import { generalFloor } from "./initGlobalVariables.js";
 
 const hitBoxes = {

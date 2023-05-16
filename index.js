@@ -13,8 +13,8 @@
 // 1) When the last hit, you die, but health bar is not changed
 // 2) Whe player encounter the wall the animation doesn`t stop
 
-import { keys } from "./js/keys.js";
-import { Stuff } from "./js/Stuff.js";
+import keys from "./js/keys.js";
+import Stuff from "./js/Stuff.js";
 import { generalFloor, stuff, particles } from "./js/initGlobalVariables.js";
 import { hideUserInterFace } from "./js/userInterface.js";
 import { player, enemy, playerJumpForce } from "./js/players.js";

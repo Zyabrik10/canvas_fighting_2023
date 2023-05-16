@@ -1,1 +1,1 @@
-export class Audio {}
+export default class Audio {}

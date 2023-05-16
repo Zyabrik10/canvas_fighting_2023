@@ -1,4 +1,4 @@
-export const keys = {
+const keys = {
   a: {
     pressed: false,
     btn: "a",
@@ -32,3 +32,5 @@ export const keys = {
     btn: "f",
   },
 };
+
+export default keys;

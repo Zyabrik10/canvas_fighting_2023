@@ -1,9 +1,9 @@
-import { Sprite } from "./Sprite.js";
-import { Particle } from "./Particle.js";
+import Sprite from "./Sprite.js";
+import Particle from "./Particle.js";
 import { random, cos, sin, pi, randNum } from "./mathFunc.js";
 import { particles, generalFloor } from "./initGlobalVariables.js";
 
-export class Player extends Sprite {
+export default class Player extends Sprite {
   constructor({
     pos,
     color,
