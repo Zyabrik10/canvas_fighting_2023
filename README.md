@@ -1,6 +1,8 @@
-# canvas_fighting_2023
+# Canvas Fighting 2023
 
 HTML / CSS / JAVASCRIPT
+
+Play it now: https://zyabrik10.github.io/canvas_fighting_2023/
 
 --------------------------------------------------------------------------------------------------------------------------------
 
@@ -10,7 +12,7 @@ This is the first beta version. There are two bugs in it that I know:
 
 --------------------------------------------------------------------------------------------------------------------------------
 
-COMING SOON:
+## Coming soon:
 1. Background music
 2. Voice like in mortal combat
 3. Super hit with charging
@@ -20,11 +22,12 @@ COMING SOON:
 
 --------------------------------------------------------------------------------------------------------------------------------
 
-PLAN: In the future I'm gonna make this free tutorial like a book, a cource or somthing.
+## Plan: 
+In the future I'm gonna make this free tutorial like a book, a cource or somthing.
 
 --------------------------------------------------------------------------------------------------------------------------------
 
-SUPPORT:
+## Support:
 
 If you like it. Maybe you would like to support this little project with some money (you choose how much).
 1. 5375 4115 0426 4081 [hryvna]
