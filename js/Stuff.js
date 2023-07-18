@@ -34,13 +34,15 @@ export default class Stuff extends Sprite {
     },
   ];
 
-  role = this.roles[Math.floor(Math.random() * this.roles.length)];
-
-  constructor({ floor = generalFloor, size = 40 }) {
+  constructor({ floor = generalFloor, size = 40, role, pos }) {
     super({
       width: size,
       height: size,
     });
+
+    this.role = role
+      ? this.roles[role]
+      : this.roles[Math.floor(Math.random() * this.roles.length)];
 
     this.sizeCof = this.role.sizeCof;
     this.imageOffset = this.role.imageOffset;
@@ -48,15 +50,6 @@ export default class Stuff extends Sprite {
     this.imageSrc = this.role.imageSrc;
     this.image = new Image();
     this.image.src = this.imageSrc;
-
-    this.size = size;
-
-    this.pos = {
-      x: randNum(this.size, canvas.width - this.size),
-      y: -this.size,
-    };
-
-    this.color = `hsl(${randNum(0, 360)}, 80%, 50%)`;
 
     switch (this.role.name) {
       case "kit":
@@ -69,6 +62,15 @@ export default class Stuff extends Sprite {
         this.color = `gold`;
         break;
     }
+
+    this.size = size;
+
+    this.pos = pos || {
+      x: randNum(this.size, canvas.width - this.size),
+      y: -this.size,
+    };
+
+    this.color = `hsl(${randNum(0, 360)}, 80%, 50%)`;
 
     this.vel = {
       x: randNum(-10, 10),
@@ -115,7 +117,7 @@ export default class Stuff extends Sprite {
   update() {
     this.fall();
     this.move();
-    this.drawCollision();
+    // this.drawCollision();
     this.draw();
   }
 }

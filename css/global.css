@@ -1,0 +1,126 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: inherit;
+  padding: inherit;
+  overflow: hidden;
+
+  font-family: "VT323", monospace;
+
+  background-color: #000;
+  background-image: url("https://wallpaperaccess.com/full/1347872.jpg");
+}
+
+canvas {
+  background: #000;
+  background: url("../assets/sprites/background/bulkhead-wallsx3.png");
+
+  background-size: contain;
+}
+
+.container {
+  width: 100%;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 364px) {
+  .container {
+    max-width: 348px;
+  }
+}
+
+@media screen and (min-width: 748px) {
+  .container {
+    max-width: 748px;
+    padding: 0 10px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .container {
+    max-width: 1440px;
+  }
+}
+
+.global-section {
+  padding: 50px 0;
+}
+
+.global-p,
+.global-title {
+  margin: 0;
+}
+
+.global-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.global-link {
+  color: currentColor;
+  text-decoration: none;
+}
+
+.global-button {
+  border: none;
+  padding: 0;
+
+  cursor: pointer;
+
+  background: none;
+
+  color: currentColor;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  font-variant: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+
+/* For cell */
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  --flex-items: 1;
+  gap: var(--flex-items-gap);
+}
+
+.flex-container > * {
+  flex-basis: calc(
+    (100% - (var(--flex-items) - 1) * var(--flex-items-gap)) / var(--flex-items)
+  );
+}
+
+@media screen and (min-width: 364px) {
+  .flex-container {
+    --flex-items: 2;
+  }
+}
+
+@media screen and (min-width: 748px) {
+  .flex-container {
+    --flex-items: 3;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .flex-container {
+    --flex-items: 4;
+  }
+}

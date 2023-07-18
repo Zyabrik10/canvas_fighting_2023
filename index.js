@@ -19,6 +19,7 @@ import { player, enemy, playerJumpForce } from "./js/players.js";
 import { userButtons } from "./js/init/initUserInterface.js";
 import { initGame } from "./js/init/initGame.js";
 import { timer } from "./js/init/timer.js";
+import { canvas, ctx } from "./js/init/initCanvas.js";
 
 const startGameButton = document.querySelector(".start-game-button");
 

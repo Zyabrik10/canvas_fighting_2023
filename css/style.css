@@ -1,5 +1,4 @@
-@import url("./general.css");
-@import url("./reset.css");
+@import url("./global.css");
 
 .game {
   position: absolute;
@@ -104,7 +103,11 @@
   left: 0;
   top: 0;
 
-  /* background: url('../assets/sprites/bulkhead-walls-files/bulkhead-wallsx3.png'); */
+  /* background: #000; */
+  /* background: url("../assets/sprites/background/bulkhead-wallsx3.png");
+   */
+
+  background: transparent;
 
   background-size: contain;
 
