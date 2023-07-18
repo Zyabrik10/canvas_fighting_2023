@@ -1,6 +1,7 @@
 import Sprite from "./Sprite.js";
 import { randNum } from "./mathFunc.js";
-import { generalFloor } from "./initGlobalVariables.js";
+import { generalFloor } from "./init/initGlobalVariables.js";
+import { ctx, canvas } from "./init/initCanvas.js";
 
 export default class Particle extends Sprite {
   constructor({

@@ -1,6 +1,7 @@
-import { generalFloor } from "./initGlobalVariables.js";
+import { generalFloor } from "./init/initGlobalVariables.js";
 import { randNum } from "./mathFunc.js";
 import Sprite from "./Sprite.js";
+import { ctx, canvas } from "./init/initCanvas.js";
 
 export default class Stuff extends Sprite {
   roles = [

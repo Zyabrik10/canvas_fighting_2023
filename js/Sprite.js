@@ -1,3 +1,5 @@
+import { ctx } from "./init/initCanvas.js";
+
 export default class Sprite {
   constructor({
     imageSrc,

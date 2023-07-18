@@ -1,7 +1,8 @@
 import Sprite from "./Sprite.js";
 import Particle from "./Particle.js";
 import { random, cos, sin, pi, randNum } from "./mathFunc.js";
-import { particles, generalFloor } from "./initGlobalVariables.js";
+import { particles, generalFloor } from "./init/initGlobalVariables.js";
+import { ctx, canvas } from "./init/initCanvas.js";
 
 export default class Player extends Sprite {
   constructor({
@@ -698,7 +699,6 @@ export default class Player extends Sprite {
 
   isBehind(enemy) {
     if (this.pos.x >= enemy.pos.x) {
-      console.log();
       this.attackBox.offset.x = -(this.width * 2 - this.width) - this.width;
       enemy.attackBox.offset.x = enemy.width;
     } else {

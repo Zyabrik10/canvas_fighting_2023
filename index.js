@@ -13,128 +13,20 @@
 // 1) When the last hit, you die, but health bar is not changed
 // 2) Whe player encounter the wall the animation doesn`t stop
 
-import keys from "./js/keys.js";
-import Stuff from "./js/Stuff.js";
-import { generalFloor, stuff, particles } from "./js/initGlobalVariables.js";
-import { hideUserInterFace } from "./js/userInterface.js";
+import keys from "./js/config/keys.js";
+import { stuff } from "./js/init/initGlobalVariables.js";
 import { player, enemy, playerJumpForce } from "./js/players.js";
+import { userButtons } from "./js/init/initUserInterface.js";
+import { initGame } from "./js/init/initGame.js";
+import { timer } from "./js/init/timer.js";
 
-let gameLoop = false;
-// requestAnimationFrame(update);
+const startGameButton = document.querySelector(".start-game-button");
 
-// INITIALIZE TIMER
-let gameTimer;
-let isButtonClicked = false;
-
-function initGame() {
-  gameLoop = true;
-  isButtonClicked = true;
-
-  update();
-  hideUserInterFace();
-
-  gameTimer = setInterval(() => {
-    if (!gameLoop) return;
-    for (let i = stuff.length - 1; i >= 0; i--) {
-      if (stuff[i].end === timerCounter) stuff.splice(i, 1);
-    }
-    timerCounter--;
-    document.querySelector(".timer-value").textContent = timerCounter;
-    if (timerCounter <= 0) gameOver();
-  }, 1000);
-}
-
-let timerCounter = 60;
-const maxTimerCounter = timerCounter;
-
-let forStuffCounter = 0;
-let forStuffCountRemainder = 200;
-
-document
-  .querySelector(".start-game-button")
-  .addEventListener("click", function startGame() {
-    if (isButtonClicked) return;
-    document.querySelector(".timer-value").textContent = timerCounter;
-    initGame();
-  });
-
-function update() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // UPDATES
-  player.update();
-  enemy.update();
-  stuff.forEach((obj) => obj.update());
-  if (particles.length) {
-    particles.forEach((particle, index) => {
-      particle.update();
-
-      if (particle.alpha <= 0) {
-        particles.splice(index, 1);
-      }
-    });
-  }
-
-  // RESET PLAYERS VELOCITY
-  player.vel.x = 0;
-  enemy.vel.x = 0;
-
-  // MOVE PLAYERS
-  player.movePlayerOn(keys.a, keys.d);
-  enemy.movePlayerOn(keys.arrowLeft, keys.arrowRight);
-
-  // PLYEARS JUMP
-  player.ifJumped();
-  enemy.ifJumped();
-
-  // PLAYERS ATTACKING
-  player.checkHitBox(enemy, 1);
-  enemy.checkHitBox(player, 4);
-
-  // IS ATTACKING
-  player.checkIfIsAttacking(3);
-  enemy.checkIfIsAttacking(0);
-
-  // IS ALIVE
-  player.checkIfIsAlive(gameOver);
-  enemy.checkIfIsAlive(gameOver);
-
-  // SPAWN STUFF
-  if (forStuffCounter % forStuffCountRemainder === 0 && Math.random() > 0.7) {
-    stuff.push(new Stuff({ floor: generalFloor }));
-  }
-
-  // PICK UP STUFF
-  if (stuff.length > 0) {
-    for (let i = stuff.length - 1; i >= 0; i--) {
-      if (player.canPickUpStuff(stuff[i])) {
-        player.getBonus(stuff[i].role.name);
-        stuff.splice(i, 1);
-        continue;
-      }
-
-      if (enemy.canPickUpStuff(stuff[i])) {
-        enemy.getBonus(stuff[i].role.name);
-        stuff.splice(i, 1);
-      }
-    }
-  }
-
-  // REVERCE PLAYERS IF PLAYER IS BEHIND
-  player.isBehind(enemy);
-
-  forStuffCounter++;
-
-  if (gameLoop) requestAnimationFrame(update);
-}
-
-function gameOver() {
-  gameLoop = false;
-  isButtonClicked = false;
-  timerCounter = maxTimerCounter;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  clearInterval(gameTimer);
-}
+startGameButton.addEventListener("click", function startGame() {
+  if (userButtons.isButtonPlayClicked) return;
+  document.querySelector(".timer-value").textContent = timer.timerCounter;
+  initGame();
+});
 
 window.addEventListener("keydown", ({ code }) => {
   switch (code) {
