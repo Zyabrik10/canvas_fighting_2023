@@ -5,6 +5,7 @@ import { hideUserInterFace } from "../userInterface.js";
 import { userButtons } from "./initUserInterface.js";
 import update from "../update/mainUpdateFunction.js";
 import globalUpdate from "../update/globalUpdate.js";
+import gameOver from "../gameOver/gameOver.js";
 
 export const game = { gameLoop: false };
 
