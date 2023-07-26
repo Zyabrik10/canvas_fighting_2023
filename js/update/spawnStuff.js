@@ -5,7 +5,7 @@ import Stuff from "../Stuff.js";
 export default function spawnStuff() {
   if (
     forStuff.forStuffCounter % forStuff.forStuffCountRemainder === 0 &&
-    Math.random() > 0.1
+    Math.random() > 0.8
   ) {
     stuff.push(new Stuff({ floor: generalFloor }));
   }

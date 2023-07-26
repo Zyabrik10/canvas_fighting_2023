@@ -68,7 +68,7 @@ window.addEventListener("keydown", ({ code }) => {
       if (enemy.pos.y + enemy.height >= enemy.floor)
         enemy.vel.y = -playerJumpForce;
       break;
-    case "KeyF":
+    case "KeyL":
       if (!keys.f.pressed) {
         enemy.attack();
         keys.f.pressed = true;
