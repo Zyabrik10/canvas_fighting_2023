@@ -171,6 +171,7 @@ function resetGame() {
   resetGameSettings();
   resetPlayers(instances.player, instances.enemy);
   resetUI();
+  console.log("game was reseted");
 }
 
 function setTimer() {
