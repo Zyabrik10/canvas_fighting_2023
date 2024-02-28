@@ -6,11 +6,10 @@ import sounds from "./sounds.js";
 import { createAndPrealodImagesForSprites } from "./scripts/images-func.js";
 import { createAndPrealodSounds } from "./scripts/sounds-func.js";
 
-import createInstances from "./scripts/createInstances.js";
 import worldSettings from "./scripts/world-settings.js";
 import gameLoop from "./scripts/game-loop";
 import keys from "./keys.js";
-import instances from "./scripts/instances.js";
+import { instances, createInstances } from "./scripts/instances.js";
 
 let canvas, ctx;
 const cWidth = 1200,
@@ -138,30 +137,64 @@ function update(time) {
 }
 
 function resetGameSettings() {
-  worldSettings.timer = undefined;
+  worldSettings.floor = undefined;
+  worldSettings.fps = 80;
+  worldSettings.deltaTime = 0;
   worldSettings.updateCanvas = undefined;
-  worldSettings.isGameRunning = false;
+  worldSettings.timer = undefined;
   worldSettings.time = 60;
+  worldSettings.isGameRunning = false;
 }
 
-function startGame() {
+function resetPlayers(player, enemy) {
+  player.reset({
+    x: canvas.width / 2 - canvas.width / 4 - player.width / 2,
+    y: 100,
+  });
+  enemy.reset({
+    x: canvas.width / 2 + canvas.width / 4 - enemy.width / 2,
+    y: 0,
+  });
+}
+
+function resetUI() {
   toggleUI(false);
   toggleGameUI(true);
-  resetGameSettings();
-  timerUI.innerText = worldSettings.time;
+}
 
+function resetTimer() {
+  clearInterval(worldSettings.timer);
+}
+
+function resetGame() {
+  resetTimer();
+  resetGameSettings();
+  resetPlayers(instances.player, instances.enemy);
+  resetUI();
+}
+
+function setTimer() {
+  timerUI.innerText = worldSettings.time;
   worldSettings.timer = setInterval(() => {
     worldSettings.time--;
     timerUI.innerText = worldSettings.time;
-
     if (worldSettings.time <= 0) {
       clearInterval(worldSettings.timer);
       cancelAnimationFrame(worldSettings.updateCanvas);
-      return;
     }
   }, 1000);
+}
 
+function startGame() {
+  setTimer();
+  worldSettings.isGameRunning = true;
   worldSettings.updateCanvas = requestAnimationFrame(update);
+  console.log("Start!");
+}
+
+function initGame() {
+  resetGame();
+  startGame();
 }
 
 async function preStartUpdate() {
@@ -173,6 +206,7 @@ async function preStartUpdate() {
     allElToLoad,
     elLoaded
   );
+
   await createAndPrealodSounds(
     sounds,
     audios,
@@ -182,11 +216,11 @@ async function preStartUpdate() {
     elLoaded
   );
 
-  loaderElement.classList.add("hidden");
-  toggleUI(true);
-
   createInstances(canvas, images, audios);
   setCanvasControl(instances.player, instances.enemy);
+
+  loaderElement.classList.add("hidden");
+  toggleUI(true);
 
   console.log("All assets were loaded!");
 }
@@ -213,7 +247,7 @@ window.addEventListener("load", () => {
   preStartUpdate()
     .then(() => {
       buttonStartGame.addEventListener("click", () => {
-        startGame();
+        if (!worldSettings.isGameRunning) initGame();
       });
     })
     .catch((e) => {

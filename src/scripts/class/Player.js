@@ -38,36 +38,6 @@ export default class Player extends Sprite {
       framesAmount,
       upf,
     });
-    this.vel = {
-      x: 0,
-      y: 0,
-    };
-
-    this.lastKey = undefined;
-
-    this.floor = floor;
-
-    this.isAttacking = false;
-
-    this.attackBox = attackBox;
-    this.hitBoxes = hitBoxes;
-
-    this.particles = [];
-
-    this.healthLine = healthLine;
-
-    this.maxHealth = 1000;
-    this.health = this.maxHealth;
-
-    this.power = 1;
-    this.maxPower = this.power * 10;
-    this.minPower = this.power;
-
-    this.defence = 1;
-
-    this.sprites = sprites;
-
-    this.sound = undefined;
 
     this.sounds = {};
 
@@ -78,6 +48,34 @@ export default class Player extends Sprite {
         preloadSound(this.sounds[sound][i]);
       }
     }
+
+    this.floor = floor;
+    this.attackBox = attackBox;
+    this.hitBoxes = hitBoxes;
+    this.healthLine = healthLine;
+    this.sprites = sprites;
+
+    this.vel = {
+      x: 0,
+      y: 0,
+    };
+
+    this.lastKey = undefined;
+
+    this.isAttacking = false;
+
+    this.particles = [];
+
+    this.maxHealth = 1000;
+    this.health = this.maxHealth;
+
+    this.power = 1;
+    this.maxPower = this.power * 10;
+    this.minPower = this.power;
+
+    this.defence = 1;
+
+    this.sound = undefined;
 
     this.attackCounter = 0;
 
@@ -92,9 +90,48 @@ export default class Player extends Sprite {
     this.runSoundIndex = 0;
     this.albeToPlayRun = true;
 
-    this.updateHitBoxes.call(this);
+    this.maxHealth = 1000;
+
+    this.updateHitBoxes();
 
     console.log("Player instance created: ", this);
+  }
+
+  reset(pos) {
+    this.pos = pos;
+    this.vel = {
+      x: 0,
+      y: 0,
+    };
+
+    this.lastKey = undefined;
+
+    this.isAttacking = false;
+
+    this.particles = [];
+
+    this.health = this.maxHealth;
+
+    this.power = 1;
+    this.maxPower = this.power * 10;
+    this.minPower = this.power;
+
+    this.defence = 1;
+
+    this.sound = undefined;
+
+    this.attackCounter = 0;
+
+    this.isDead = false;
+
+    this.isOnTheGround = false;
+    this.landed = false;
+
+    this.playerSpeed = 10;
+    this.jumpForce = 20;
+
+    this.runSoundIndex = 0;
+    this.albeToPlayRun = true;
   }
 
   drawCollision(ctx) {

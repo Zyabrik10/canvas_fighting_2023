@@ -1,4 +1,4 @@
-import instances from "./instances";
+import { instances } from "./instances";
 import worldSettings from "./world-settings.js";
 
 function movePlayers(keys, player, enemy) {
